@@ -2,136 +2,145 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>日本旅遊商品內容製作支援工具</title>
+  <title>旅行商品コンテンツ作成支援ツール</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
 
- <style>
-  body {
-    background-color: #FAFAF8;
-  }
-
-  /* MUJI-style form controls */
-  input[type="radio"] {
-    accent-color: #4A4A4A;
-  }
-
-  textarea:focus,
-  input:focus {
-    outline: none;
-    box-shadow: none;
-    border-color: #4A4A4A;
-  }
-</style>
-
+  <style>
+    body {
+      background-color: #FAFAF8;
+    }
+  </style>
 </head>
 
 <body class="text-[#2E2E2E] min-h-screen flex flex-col">
 
-  <!-- Info -->
+  <!-- Header -->
   <div class="w-full text-center py-2 text-xs text-[#6B6B6B] border-b border-[#E5E5E3]">
-    デモ版｜Demo Version
+    Demo Version
   </div>
 
   <main class="flex-1 max-w-5xl mx-auto px-4 py-12">
 
-    <!-- Hero -->
+    <!-- Title -->
     <section class="text-center mb-12">
-      <h1 class="text-3xl md:text-4xl font-medium tracking-wide mb-3">
-        日本旅遊商品內容製作支援工具
-      </h1>
-      <p class="text-base text-[#6B6B6B] mb-2">
+      <h1 class="text-3xl md:text-4xl font-medium mb-3">
         旅行商品コンテンツ作成支援ツール
-      </p>
-      <p class="text-sm text-[#6B6B6B] leading-relaxed max-w-2xl mx-auto">
-        可輸入日文或中文，依目標客群與商品屬性，協助製作旅遊商品內容。<br />
-        日本語・中国語で入力可能
+      </h1>
+      <p class="text-sm text-[#6B6B6B] leading-relaxed">
+        日本語・中国語で入力可能。<br />
+        目標客群與商品類型に応じて、商品內容を生成します。
       </p>
     </section>
 
     <!-- Tool -->
     <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
 
-      <!-- Input -->
-      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-6">
+      <!-- Left -->
+      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-8">
 
         <!-- Market -->
         <div>
-          <p class="text-sm font-medium mb-2">
-            目標客群 / 対象ユーザー
-          </p>
-          <div class="space-y-1 text-sm">
-            <label class="flex items-center gap-2">
-              <input type="radio" name="market" value="jp" />
-              日本人
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="market" value="zh" />
-              中華圈旅客
-            </label>
+          <p class="text-sm font-medium mb-3">目標客群 / 対象ユーザー</p>
+          <div class="space-y-2">
+            <div class="market-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="jp">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">日本人</span>
+            </div>
+            <div class="market-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="zh">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">中華圈旅客</span>
+            </div>
           </div>
         </div>
 
         <!-- Type -->
         <div>
-          <p class="text-sm font-medium mb-2">
-            商品屬性 / 商品タイプ
-          </p>
-          <div class="space-y-1 text-sm">
-            <label class="flex items-center gap-2">
-              <input type="radio" name="productType" value="charter" />
-              包車（チャーター）
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="productType" value="experience" />
-              體驗（体験）
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="productType" value="multiday" />
-              多日遊（周遊ツアー・宿泊付き）
-            </label>
-            <label class="flex items-center gap-2">
-              <input type="radio" name="productType" value="ticket" />
-              票券（チケット）
-            </label>
+          <p class="text-sm font-medium mb-3">商品屬性 / 商品タイプ</p>
+          <div class="space-y-2">
+            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="charter">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">包車（チャーター）</span>
+            </div>
+            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="experience">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">體驗（体験）</span>
+            </div>
+            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="multiday">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">多日遊（周遊ツアー・宿泊付き）</span>
+            </div>
+            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="ticket">
+              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+              <span class="text-sm">票券（チケット）</span>
+            </div>
           </div>
+        </div>
+
+        <!-- Plan Count -->
+        <div>
+          <p class="text-sm font-medium mb-2">方案數量</p>
+          <select
+            id="planCount"
+            class="w-full border border-[#E5E5E3] rounded-md p-2 text-sm bg-white"
+          >
+            <option value="1">1 個方案</option>
+            <option value="2">2 個方案</option>
+            <option value="3">3 個方案</option>
+            <option value="4">4 個方案</option>
+            <option value="5">5 個方案</option>
+            <option value="6">6 個方案（最多）</option>
+          </select>
         </div>
 
         <!-- Source -->
         <div>
-          <p class="text-sm font-medium mb-2">
-            商品原始資料 / 商品元データ
-          </p>
+          <p class="text-sm font-medium mb-2">商品原始資料 / 商品元データ</p>
           <textarea
-            class="w-full min-h-[150px] border border-[#E5E5E3] rounded-md p-3 text-sm focus:outline-none focus:ring-1 focus:ring-[#4A4A4A]"
-            placeholder="商品標題、簡單說明或行程內容（日文／中文皆可）"
+            class="w-full min-h-[160px] border border-[#E5E5E3] rounded-md p-3 text-sm focus:outline-none"
+            placeholder="商品標題、行程內容、服務特色（日文／中文皆可）"
           ></textarea>
         </div>
 
         <!-- Button -->
         <button
           id="generateBtn"
-          class="w-full bg-[#4A4A4A] hover:bg-[#2F2F2F] text-white text-sm py-3 rounded-md tracking-wide"
+          class="w-full bg-[#4A4A4A] hover:bg-[#2F2F2F] text-white text-sm py-3 rounded-md"
         >
           生成旅遊商品內容
         </button>
 
       </div>
 
-      <!-- Result -->
-      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-6 text-sm">
+      <!-- Right -->
+      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-8 text-sm">
+
+        <!-- Product -->
         <div>
           <p class="font-medium mb-1">商品標題</p>
           <p id="resultTitle" class="text-[#6B6B6B]">—</p>
         </div>
+
         <div>
           <p class="font-medium mb-1">商品簡述（SEO）</p>
           <p id="resultSummary" class="text-[#6B6B6B]">—</p>
         </div>
+
         <div>
           <p class="font-medium mb-1">商品描述</p>
           <p id="resultDescription" class="text-[#6B6B6B] whitespace-pre-line">—</p>
         </div>
+
+        <hr class="border-[#E5E5E3]" />
+
+        <!-- Plans -->
+        <div>
+          <p class="font-medium mb-3">方案內容</p>
+          <div id="planContainer" class="space-y-6 text-[#6B6B6B]">
+            <!-- JS 動態產生 -->
+          </div>
+        </div>
+
       </div>
 
     </div>
@@ -142,22 +151,75 @@
     © Travel Content Support Tool
   </div>
 
-  <!-- Demo Logic -->
+  <!-- Demo JS -->
   <script>
-    const btn = document.getElementById("generateBtn");
+    let selectedMarket = "";
+    let selectedType = "";
+    let planCount = 1;
 
-    btn.addEventListener("click", () => {
+    document.querySelectorAll(".market-option").forEach(option => {
+      option.addEventListener("click", () => {
+        document.querySelectorAll(".market-option div:first-child")
+          .forEach(dot => dot.innerHTML = "");
+        option.querySelector("div").innerHTML =
+          '<div class="w-2 h-2 bg-[#4A4A4A] rounded-full m-auto mt-[3px]"></div>';
+        selectedMarket = option.dataset.value;
+      });
+    });
+
+    document.querySelectorAll(".type-option").forEach(option => {
+      option.addEventListener("click", () => {
+        document.querySelectorAll(".type-option div:first-child")
+          .forEach(dot => dot.innerHTML = "");
+        option.querySelector("div").innerHTML =
+          '<div class="w-2 h-2 bg-[#4A4A4A] rounded-full m-auto mt-[3px]"></div>';
+        selectedType = option.dataset.value;
+      });
+    });
+
+    function renderPlans(count) {
+      const container = document.getElementById("planContainer");
+      container.innerHTML = "";
+      for (let i = 1; i <= count; i++) {
+        container.innerHTML += `
+          <div>
+            <p class="font-medium mb-1">方案 ${i}｜方案名稱</p>
+            <p id="planTitle${i}">—</p>
+            <p class="font-medium mt-2 mb-1">方案 ${i}｜方案說明</p>
+            <p id="planDesc${i}" class="whitespace-pre-line">—</p>
+          </div>
+        `;
+      }
+    }
+
+    renderPlans(planCount);
+
+    document.getElementById("planCount").addEventListener("change", e => {
+      planCount = Number(e.target.value);
+      renderPlans(planCount);
+    });
+
+    document.getElementById("generateBtn").addEventListener("click", () => {
+      if (!selectedMarket || !selectedType) {
+        alert("請先選擇目標客群與商品屬性");
+        return;
+      }
+
       document.getElementById("resultTitle").innerText =
-        "富士山・河口湖 周遊2日間ツアー";
-
+        "【示例】依商品資料生成的商品標題";
       document.getElementById("resultSummary").innerText =
-        "宿泊付きで富士山と河口湖を巡る、落ち着いた周遊型行程。";
-
+        "這裡是商品簡述（SEO），未來將由 AI 自動生成。";
       document.getElementById("resultDescription").innerText =
-        "本行程為包含住宿的多日遊商品，行程安排節奏舒適。\n\n適合希望深入體驗富士山地區的旅客。";
+        "這裡是商品描述。\n\n目前為前端示範版本，用來確認結構是否正確。";
+
+      for (let i = 1; i <= planCount; i++) {
+        document.getElementById(`planTitle${i}`).innerText =
+          `方案 ${i}｜示例方案名稱`;
+        document.getElementById(`planDesc${i}`).innerText =
+          `此為第 ${i} 個方案的說明內容。\n\n未來將由 AI 依方案差異生成。`;
+      }
     });
   </script>
 
 </body>
 </html>
-Update form styles
