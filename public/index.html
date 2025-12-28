@@ -2,155 +2,169 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品コンテンツ作成支援ツール</title>
+  <title>旅行商品內容作成支援工具</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
+  
   <style>
     body {
-      background-color: #F7F7F5;
+      background-color: #F9F9F7; /* 日系米灰色背景 */
+      font-family: 'Noto Sans JP', "Microsoft JhengHei", sans-serif;
+      color: #333333;
+    }
+    .accent-color { color: #6A8D92; } /* 清新的藍綠色調 */
+    .bg-accent { background-color: #6A8D92; }
+    .border-soft { border-color: #E2E2DE; }
+    
+    /* 自定義 Radio 樣式 */
+    input[type="radio"] {
+      accent-color: #6A8D92;
+    }
+    
+    /* 讓輸入框更柔和 */
+    textarea, select {
+      transition: all 0.3s ease;
+    }
+    textarea:focus, select:focus {
+      border-color: #6A8D92 !important;
+      box-shadow: 0 0 0 2px rgba(106, 141, 146, 0.1);
     }
   </style>
 </head>
 
-<body class="text-[#2B2B2B] min-h-screen">
+<body class="min-h-screen">
 
-  <main class="max-w-6xl mx-auto px-6 py-10">
+  <main class="max-w-6xl mx-auto px-8 py-16">
 
-    <header class="mb-10">
-      <h1 class="text-xl font-bold tracking-wide">
-        旅行商品コンテンツ作成支援
+    <header class="mb-16 border-l-4 border-[#6A8D92] pl-6">
+      <h1 class="text-2xl font-medium tracking-widest text-[#2B2B2B]">
+        旅行商品內容作成支援
       </h1>
-      <p class="text-xs text-[#6B6B6B] mt-1">
-        日本語・中国語対応｜商品構成確認・整理ツール  
-        <span class="block text-gray-400">
-          （協助日本旅遊商品內容結構整理）
-        </span>
+      <p class="text-xs text-[#888] mt-2 tracking-loose leading-relaxed">
+        日本語・中国語対応 ｜ 商品構成確認・整理ツール  
+        <span class="block opacity-60">協助日本旅遊商品內容結構整理，打造最具質感的在地化文案。</span>
       </p>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-10">
+    <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16">
 
-      <section class="space-y-8">
+      <section class="space-y-10">
 
         <div>
-          <p class="text-sm font-bold mb-2">
-            ターゲット
-            <span class="text-xs text-[#777] font-normal">（目標客群）</span>
+          <p class="text-[13px] font-bold mb-4 tracking-wider flex items-center gap-2">
+            目標客群 <span class="text-[10px] text-gray-400 font-normal">TARGET</span>
           </p>
-          <div class="space-y-1">
-            <label class="flex items-center gap-2 py-2 cursor-pointer">
-              <input type="radio" name="market" checked />
-              <span class="text-sm">日本人向け</span>
+          <div class="space-y-3">
+            <label class="flex items-center gap-3 text-[13px] cursor-pointer group">
+              <input type="radio" name="market" class="w-4 h-4" checked />
+              <span class="group-hover:text-[#6A8D92] transition-colors">日本人向け</span>
             </label>
-            <label class="flex items-center gap-2 py-2 cursor-pointer">
-              <input type="radio" name="market" />
-              <span class="text-sm">中華圏旅行者（繁体字／簡体字）</span>
+            <label class="flex items-center gap-3 text-[13px] cursor-pointer group">
+              <input type="radio" name="market" class="w-4 h-4" />
+              <span class="group-hover:text-[#6A8D92] transition-colors">中華圈旅客（繁／簡中文）</span>
             </label>
           </div>
         </div>
 
         <div>
-          <p class="text-sm font-bold mb-2">
-            商品タイプ
-            <span class="text-xs text-[#777] font-normal">（商品類型）</span>
+          <p class="text-[13px] font-bold mb-4 tracking-wider">
+            商品類型 <span class="text-[10px] text-gray-400 font-normal">TYPE</span>
           </p>
-          <div class="grid grid-cols-2 gap-1">
-            <label class="flex items-center gap-2 py-2">
+          <div class="grid grid-cols-2 gap-y-3">
+            <label class="flex items-center gap-2 text-[13px] cursor-pointer group">
               <input type="radio" name="type" checked />
-              <span class="text-sm">チャーター（包車）</span>
+              <span class="group-hover:text-[#6A8D92]">包車</span>
             </label>
-            <label class="flex items-center gap-2 py-2">
+            <label class="flex items-center gap-2 text-[13px] cursor-pointer group">
               <input type="radio" name="type" />
-              <span class="text-sm">アクティビティ（體驗）</span>
+              <span class="group-hover:text-[#6A8D92]">體驗</span>
             </label>
-            <label class="flex items-center gap-2 py-2">
+            <label class="flex items-center gap-2 text-[13px] cursor-pointer group">
               <input type="radio" name="type" />
-              <span class="text-sm">宿泊ツアー（多日遊）</span>
+              <span class="group-hover:text-[#6A8D92]">多日遊</span>
             </label>
-            <label class="flex items-center gap-2 py-2">
+            <label class="flex items-center gap-2 text-[13px] cursor-pointer group">
               <input type="radio" name="type" />
-              <span class="text-sm">チケット（票券）</span>
+              <span class="group-hover:text-[#6A8D92]">票券</span>
             </label>
           </div>
         </div>
 
         <div>
-          <p class="text-sm font-bold mb-2">
-            プラン数
-            <span class="text-xs text-[#777] font-normal">（方案數量）</span>
+          <p class="text-[13px] font-bold mb-3 tracking-wider">
+            方案數量 <span class="text-[10px] text-gray-400 font-normal">PLANS</span>
           </p>
-          <select id="planCount" class="w-full border border-[#DDD] bg-white text-sm px-2 py-2 rounded-sm focus:outline-none focus:border-gray-500">
+          <select id="planCount" class="w-full border-b border-gray-300 bg-transparent text-sm py-2 focus:outline-none focus:border-[#6A8D92]">
             <option value="1">1</option>
             <option value="2">2</option>
             <option value="3">3</option>
             <option value="4">4</option>
-            <option value="5">5</option>
-            <option value="6">6</option>
           </select>
         </div>
 
         <div>
-          <p class="text-sm font-bold mb-2">
-            商品情報ソース
-            <span class="text-xs text-[#777] font-normal">（原始資料）</span>
+          <p class="text-[13px] font-bold mb-3 tracking-wider">
+            商品情報 <span class="text-[10px] text-gray-400 font-normal">SOURCE</span>
           </p>
           <textarea
-            class="w-full h-40 border border-[#DDD] bg-white text-sm p-2 focus:outline-none focus:border-gray-500"
-            placeholder="商品名、行程内容、サービスの特徴など（日本語／中国語）"
+            class="w-full h-48 border border-gray-200 bg-white/50 text-sm p-4 rounded-sm focus:outline-none placeholder:text-gray-300"
+            placeholder="請輸入原始資料..."
           ></textarea>
         </div>
 
         <button
           id="generateBtn"
-          class="w-full inline-block bg-[#2B2B2B] text-white text-sm px-4 py-3 hover:bg-[#444] transition-colors"
+          class="w-full bg-[#6A8D92] text-white text-[13px] tracking-widest py-4 rounded-sm hover:bg-[#5A7D82] transition-all shadow-sm active:scale-[0.98]"
         >
-          構成を生成する
+          生成內容結構
         </button>
 
       </section>
 
-      <section class="space-y-6 bg-white p-8 border border-[#EEE] rounded-sm">
-
-        <div>
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Product Title</p>
-          <p class="text-sm font-bold mt-1">商品タイトル</p>
-          <p class="text-sm text-[#999] mt-1">—</p>
+      <section class="bg-white p-10 md:p-14 shadow-[0_10px_40px_-15px_rgba(0,0,0,0.05)] rounded-sm border border-gray-100 relative overflow-hidden">
+        
+        <div class="absolute top-10 right-10 text-gray-50 font-bold text-6xl pointer-events-none select-none">
+          PREVIEW
         </div>
 
-        <div>
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">SEO Summary</p>
-          <p class="text-sm font-bold mt-1">商品キャッチコピー（SEO）</p>
-          <p class="text-sm text-[#999] mt-1">—</p>
+        <div class="relative space-y-12">
+          <div>
+            <p class="text-[10px] text-[#6A8D92] font-bold tracking-[0.2em] mb-2">TITLE</p>
+            <p class="text-base font-medium">商品標題</p>
+            <div class="w-8 h-[1px] bg-gray-200 mt-3"></div>
+            <p class="text-sm text-gray-400 mt-4 italic">— 未生成 —</p>
+          </div>
+
+          <div>
+            <p class="text-[10px] text-[#6A8D92] font-bold tracking-[0.2em] mb-2">SUMMARY</p>
+            <p class="text-base font-medium">商品簡述</p>
+            <p class="text-sm text-gray-400 mt-4 italic">— 未生成 —</p>
+          </div>
+
+          <div class="pt-4">
+            <p class="text-[10px] text-[#6A8D92] font-bold tracking-[0.2em] mb-2">DESCRIPTION</p>
+            <p class="text-base font-medium mb-4">商品描述</p>
+            <p class="text-sm text-gray-500 leading-relaxed whitespace-pre-line">（生成的文案將會顯示於此，採用柔和的行高閱讀體驗）</p>
+          </div>
+
+          <div class="pt-8">
+            <p class="text-[11px] font-bold text-gray-800 mb-8 border-b border-gray-100 pb-4">方案詳細內容 / PLAN DETAILS</p>
+            <div id="planContainer" class="grid grid-cols-1 gap-10"></div>
+          </div>
+
+          <footer class="mt-20 pt-10 border-t border-gray-100">
+            <div class="flex flex-col md:flex-row gap-6 text-[11px] text-gray-400 leading-relaxed">
+              <div class="flex-1">
+                <p class="font-bold text-gray-500 mb-2 underline underline-offset-4 decoration-[#6A8D92]/30">本ツールについて</p>
+                <p>本工具為協助旅遊商品構成之整理。文案生成後請務必依照各平台規範進行微調，以確保資訊正確性。</p>
+              </div>
+              <div class="flex-1">
+                <p class="text-[#6A8D92]/50 italic">Currently in Demo mode. AI engine integration is in progress.</p>
+              </div>
+            </div>
+          </footer>
         </div>
-
-        <div>
-          <p class="text-xs font-bold text-gray-400 uppercase tracking-wider">Description</p>
-          <p class="text-sm font-bold mt-1">商品紹介文</p>
-          <p class="text-sm text-[#999] mt-1 whitespace-pre-line">—</p>
-        </div>
-
-        <hr class="border-[#DDD]" />
-
-        <div>
-          <p class="text-sm font-bold mb-4">プラン詳細内容</p>
-          <div id="planContainer" class="space-y-6 text-sm text-[#666]"></div>
-        </div>
-
-        <hr class="border-[#DDD]" />
-
-        <aside class="text-[11px] text-[#6B6B6B] leading-relaxed bg-gray-50 p-4 rounded">
-          <p class="font-bold mb-2">本ツールの利用について</p>
-          <p>
-            本ツールは、旅行商品の構成を確認・整理するための支援ツールです。<br />
-            入力された情報に基づき、商品およびプラン単位で情報を最適化します。
-          </p>
-          <p class="mt-2 text-red-700/80">
-            ※ 実際の販売用文案は、各プラットフォームの掲載基準やガイドラインに従い、最終調整を行ってください。
-          </p>
-          <p class="mt-2 border-t border-gray-200 pt-2">
-            ※ 現在はデモ版のため、ロジックによる自動生成機能は準備中です。
-          </p>
-        </aside>
 
       </section>
 
@@ -165,12 +179,15 @@
       container.innerHTML = "";
       for (let i = 1; i <= count; i++) {
         container.innerHTML += `
-          <div class="border-l-2 border-gray-200 pl-4">
-            <p class="font-bold text-[#2B2B2B]">プラン ${i}</p>
-            <p class="mt-1 text-xs text-gray-400 italic">Plan Name (Example)</p>
-            <p class="mt-1">プラン名称（例：スタンダードプラン）</p>
-            <p class="mt-2 text-xs text-gray-400 italic">Plan Details (Example)</p>
-            <p class="mt-1 leading-relaxed text-gray-500">プランの説明内容がここに表示されます。</p>
+          <div class="group">
+            <div class="flex items-baseline gap-3 mb-3">
+                <span class="text-[20px] font-light text-[#6A8D92]/40">0${i}</span>
+                <p class="text-sm font-medium text-gray-700">方案名稱</p>
+            </div>
+            <div class="pl-9 space-y-2">
+                <p class="text-xs text-gray-300 italic">Plan details will be structured here...</p>
+                <p class="text-[13px] text-gray-500 leading-relaxed">對應的方案內容、包含項目與說明將會整齊地呈現。</p>
+            </div>
           </div>
         `;
       }
