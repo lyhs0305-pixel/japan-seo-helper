@@ -84,54 +84,85 @@
     </div>
   </section>
 </main>
-
 <script>
-const btn = document.getElementById("generateBtn");
+  const generateBtn = document.getElementById("generateBtn");
+  const planSelect = document.getElementById("planCount");
+  const planContainer = document.getElementById("planContainer");
 
-btn.addEventListener("click", async () => {
-  btn.disabled = true;
-  btn.innerText = "生成中…";
-
-  try {
-    const market = document.querySelector("input[name='market']:checked").value;
-    const productType = document.querySelector("input[name='type']:checked").value;
-    const planCount = Number(document.getElementById("planCount").value);
-    const sourceText = document.getElementById("sourceText").value;
-
-    const res = await fetch("https://travel-content-generator.lyhs0305.workers.dev/", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ market, productType, planCount, sourceText })
-    });
-
-    if (!res.ok) throw new Error("API error");
-
-    const data = await res.json();
-
-    document.querySelector("[data-title]").innerText = data.title || "—";
-    document.querySelector("[data-summary]").innerText = data.summary || "—";
-    document.querySelector("[data-description]").innerText = data.description || "—";
-
-    const container = document.getElementById("planContainer");
-    container.innerHTML = "";
-
-    (data.plans || []).forEach((p, i) => {
-      container.innerHTML += `
-        <div>
-          <p class="font-medium">方案 ${i + 1}｜${p.name}</p>
-          <p class="text-sm text-gray-600">${p.description}</p>
+  function renderPlans(count, plansData) {
+    planContainer.innerHTML = "";
+    for (let i = 0; i < count; i++) {
+      const plan = plansData[i];
+      planContainer.innerHTML += `
+        <div class="group">
+          <div class="flex items-baseline gap-3 mb-3">
+            <span class="text-xl font-light text-[#6A8D92]/30 italic">0${i + 1}</span>
+            <p class="text-[13px] font-medium text-gray-700 underline decoration-gray-100 underline-offset-8">
+              ${plan.name}
+              <span class="text-[10px] text-gray-300 font-normal ml-1">Plan Name</span>
+            </p>
+          </div>
+          <div class="pl-10">
+            <p class="text-[12px] text-gray-500 leading-relaxed">
+              ${plan.description}
+            </p>
+          </div>
         </div>
       `;
-    });
-
-  } catch (e) {
-    alert("生成失敗，請確認 Worker 是否正常");
-    console.error(e);
-  } finally {
-    btn.disabled = false;
-    btn.innerText = "生成內容";
+    }
   }
-});
+
+  generateBtn.addEventListener("click", () => {
+    generateBtn.innerText = "生成中…";
+    generateBtn.disabled = true;
+
+    const planCount = Number(planSelect.value);
+
+    // 🔸 假資料（之後會被 AI 取代）
+    const mockData = {
+      title: "東京包車一日遊｜自由行專屬私人行程",
+      summary: "專為日本旅遊設計的包車服務，自由安排行程，輕鬆探索東京。",
+      description:
+        "本商品為東京地區包車一日遊服務，可依旅客需求自由規劃行程路線。\n\n適合家庭、朋友或商務旅客，提供舒適、安全且彈性的移動體驗。",
+      plans: [
+        {
+          name: "標準包車方案",
+          description:
+            "包含專業司機、8 小時用車服務，適合市區觀光與經典景點巡遊。"
+        },
+        {
+          name: "延長時數方案",
+          description:
+            "適合想深入探索東京近郊或希望行程更彈性的旅客。"
+        },
+        {
+          name: "豪華包車方案",
+          description:
+            "提供高級車型與資深司機，適合重視舒適度與品質的客群。"
+        }
+      ]
+    };
+
+    // 填入右側 Preview
+    document.querySelector(
+      ".relative .text-base.font-medium"
+    ).innerText = mockData.title;
+
+    document.querySelector(
+      ".relative .italic"
+    ).innerText = mockData.summary;
+
+    document.querySelector(
+      ".relative .border-l"
+    ).innerText = mockData.description;
+
+    renderPlans(planCount, mockData.plans);
+
+    setTimeout(() => {
+      generateBtn.innerText = "生成內容結構";
+      generateBtn.disabled = false;
+    }, 600);
+  });
 </script>
 
 </body>
