@@ -2,9 +2,8 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品內容作成支援工具</title>
+  <title>旅行商品內容作成支援工具 | Travel Content Support</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -13,155 +12,153 @@
       background-color: #F9F9F7;
       font-family: 'Noto Sans JP', "Microsoft JhengHei", sans-serif;
       color: #333;
+      letter-spacing: 0.05em;
+    }
+    .lang-sub {
+      font-size: 10px;
+      color: #999;
+      margin-left: 4px;
     }
   </style>
 </head>
 
-<body>
-<main class="max-w-6xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16">
+<body class="min-h-screen">
 
-  <!-- 左側 -->
-  <section class="space-y-10">
-    <h1 class="text-2xl font-medium">
-      旅行商品內容作成支援<br>
-      <span class="text-xs text-gray-400">Travel Content Creation Support</span>
+<main class="max-w-6xl mx-auto px-8 py-16">
+
+  <!-- Header -->
+  <header class="mb-16 border-l-4 border-[#6A8D92] pl-6">
+    <h1 class="text-2xl font-medium tracking-widest">
+      旅行商品內容作成支援
+      <span class="block text-xs text-gray-400 mt-1">
+        Travel Content Creation Support / 旅行商品コンテンツ作成支援
+      </span>
     </h1>
+    <p class="text-[11px] text-gray-500 mt-4">
+      日本語・中国語・英語対応 ｜ 商品構成確認・整理ツール<br>
+      <span class="opacity-60">協助旅遊商品內容結構整理，打造最具質感的在地化文案。</span>
+    </p>
+  </header>
 
-    <div>
-      <p class="text-sm font-bold mb-3">目標客群</p>
-      <label class="block"><input type="radio" name="market" value="jp" checked> 日本人</label>
-      <label class="block"><input type="radio" name="market" value="zh"> 中華圈旅客</label>
-      <label class="block"><input type="radio" name="market" value="en"> English Speakers</label>
-    </div>
+  <div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16">
 
-    <div>
-      <p class="text-sm font-bold mb-3">商品類型</p>
-      <label class="block"><input type="radio" name="type" value="包車" checked> 包車</label>
-      <label class="block"><input type="radio" name="type" value="體驗"> 體驗</label>
-      <label class="block"><input type="radio" name="type" value="多日遊"> 多日遊</label>
-      <label class="block"><input type="radio" name="type" value="票券"> 票券</label>
-    </div>
+    <!-- LEFT -->
+    <section class="space-y-10">
 
-    <div>
-      <p class="text-sm font-bold mb-2">方案數量</p>
-      <select id="planCount" class="border px-2 py-1">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
-      </select>
-    </div>
+      <div>
+        <p class="text-sm font-bold mb-3">目標客群 <span class="lang-sub">Target</span></p>
+        <label class="block text-sm"><input type="radio" name="market" checked> 日本人</label>
+        <label class="block text-sm"><input type="radio" name="market"> 中華圈旅客</label>
+        <label class="block text-sm"><input type="radio" name="market"> 英語圈旅客</label>
+      </div>
 
-    <div>
-      <p class="text-sm font-bold mb-2">商品原始資料</p>
-      <textarea id="sourceText" class="w-full h-32 border p-3" placeholder="請輸入商品資訊"></textarea>
-    </div>
+      <div>
+        <p class="text-sm font-bold mb-3">商品類型 <span class="lang-sub">Type</span></p>
+        <label class="block text-sm"><input type="radio" name="type" checked> 包車</label>
+        <label class="block text-sm"><input type="radio" name="type"> 體驗</label>
+        <label class="block text-sm"><input type="radio" name="type"> 多日遊</label>
+        <label class="block text-sm"><input type="radio" name="type"> 票券</label>
+      </div>
 
-    <button id="generateBtn" class="bg-gray-700 text-white px-4 py-3">
-      生成內容
-    </button>
-  </section>
+      <div>
+        <p class="text-sm font-bold mb-3">方案數量</p>
+        <select id="planCount" class="border p-1">
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select>
+      </div>
 
-  <!-- 右側 -->
-  <section class="bg-white p-10 border space-y-8">
-    <div>
-      <p class="text-xs text-gray-400">TITLE</p>
-      <p data-title class="text-lg">—</p>
-    </div>
+      <div>
+        <p class="text-sm font-bold mb-3">商品原始資料</p>
+        <textarea id="sourceText" class="w-full h-32 border p-3">東京包車一日遊</textarea>
+      </div>
 
-    <div>
-      <p class="text-xs text-gray-400">SUMMARY</p>
-      <p data-summary>—</p>
-    </div>
+      <button
+        id="generateBtn"
+        class="w-full bg-[#6A8D92] text-white py-3 tracking-widest">
+        生成內容結構
+      </button>
 
-    <div>
-      <p class="text-xs text-gray-400">DESCRIPTION</p>
-      <p data-description class="whitespace-pre-line">—</p>
-    </div>
+    </section>
 
-    <div>
-      <p class="text-sm font-bold">方案內容</p>
-      <div id="planContainer" class="space-y-4"></div>
-    </div>
-  </section>
+    <!-- RIGHT -->
+    <section class="bg-white p-10 shadow rounded relative">
+
+      <div class="space-y-10">
+
+        <div>
+          <p class="text-xs font-bold text-[#6A8D92]">TITLE</p>
+          <p data-title class="text-lg font-medium mt-2">
+            請輸入資料後點擊生成
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs font-bold text-[#6A8D92]">SUMMARY</p>
+          <p data-summary class="italic text-gray-400 mt-2">
+            — Pending —
+          </p>
+        </div>
+
+        <div>
+          <p class="text-xs font-bold text-[#6A8D92]">DESCRIPTION</p>
+          <p data-description class="text-sm text-gray-600 leading-relaxed whitespace-pre-line mt-2">
+            內容將根據目標客群語言自動優化。
+            The content will be optimized based on the target audience.
+          </p>
+        </div>
+
+        <div>
+          <p class="font-bold text-sm border-b pb-2">方案內容</p>
+          <div id="planContainer" class="space-y-6 mt-6"></div>
+        </div>
+
+      </div>
+
+    </section>
+
+  </div>
+
 </main>
-<script>
-  const generateBtn = document.getElementById("generateBtn");
-  const planSelect = document.getElementById("planCount");
-  const planContainer = document.getElementById("planContainer");
 
-  function renderPlans(count, plansData) {
+<script>
+  const planContainer = document.getElementById("planContainer");
+  const planSelect = document.getElementById("planCount");
+  const btn = document.getElementById("generateBtn");
+
+  function renderPlans(count) {
     planContainer.innerHTML = "";
-    for (let i = 0; i < count; i++) {
-      const plan = plansData[i];
+    for (let i = 1; i <= count; i++) {
       planContainer.innerHTML += `
-        <div class="group">
-          <div class="flex items-baseline gap-3 mb-3">
-            <span class="text-xl font-light text-[#6A8D92]/30 italic">0${i + 1}</span>
-            <p class="text-[13px] font-medium text-gray-700 underline decoration-gray-100 underline-offset-8">
-              ${plan.name}
-              <span class="text-[10px] text-gray-300 font-normal ml-1">Plan Name</span>
-            </p>
-          </div>
-          <div class="pl-10">
-            <p class="text-[12px] text-gray-500 leading-relaxed">
-              ${plan.description}
-            </p>
-          </div>
+        <div>
+          <p class="font-medium">方案 ${i}｜標準包車方案</p>
+          <p class="text-sm text-gray-500">
+            含司機、油資與基礎行程彈性調整。
+            専属ドライバー付きの安心プランです。
+          </p>
         </div>
       `;
     }
   }
 
-  generateBtn.addEventListener("click", () => {
-    generateBtn.innerText = "生成中…";
-    generateBtn.disabled = true;
+  renderPlans(planSelect.value);
 
-    const planCount = Number(planSelect.value);
+  planSelect.addEventListener("change", e => {
+    renderPlans(e.target.value);
+  });
 
-    // 🔸 假資料（之後會被 AI 取代）
-    const mockData = {
-      title: "東京包車一日遊｜自由行專屬私人行程",
-      summary: "專為日本旅遊設計的包車服務，自由安排行程，輕鬆探索東京。",
-      description:
-        "本商品為東京地區包車一日遊服務，可依旅客需求自由規劃行程路線。\n\n適合家庭、朋友或商務旅客，提供舒適、安全且彈性的移動體驗。",
-      plans: [
-        {
-          name: "標準包車方案",
-          description:
-            "包含專業司機、8 小時用車服務，適合市區觀光與經典景點巡遊。"
-        },
-        {
-          name: "延長時數方案",
-          description:
-            "適合想深入探索東京近郊或希望行程更彈性的旅客。"
-        },
-        {
-          name: "豪華包車方案",
-          description:
-            "提供高級車型與資深司機，適合重視舒適度與品質的客群。"
-        }
-      ]
-    };
+  btn.addEventListener("click", () => {
+    document.querySelector("[data-title]").innerText =
+      "東京包車一日遊｜專屬司機・自由行程";
 
-    // 填入右側 Preview
-    document.querySelector(
-      ".relative .text-base.font-medium"
-    ).innerText = mockData.title;
+    document.querySelector("[data-summary]").innerText =
+      "適合家庭與自由行旅客的彈性包車方案";
 
-    document.querySelector(
-      ".relative .italic"
-    ).innerText = mockData.summary;
+    document.querySelector("[data-description]").innerText =
+      "本商品提供東京市區包車服務，可依需求彈性調整行程。\n\n専属ドライバー付きのチャータープランで、快適な東京観光をお楽しみください。";
 
-    document.querySelector(
-      ".relative .border-l"
-    ).innerText = mockData.description;
-
-    renderPlans(planCount, mockData.plans);
-
-    setTimeout(() => {
-      generateBtn.innerText = "生成內容結構";
-      generateBtn.disabled = false;
-    }, 600);
+    renderPlans(planSelect.value);
   });
 </script>
 
