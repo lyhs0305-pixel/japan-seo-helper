@@ -25,10 +25,12 @@
       border-color: #6A8D92 !important;
       outline: none;
     }
-    /* 自定義滾動條讓風格更一致 */
-    ::-webkit-scrollbar { width: 6px; }
-    ::-webkit-scrollbar-track { background: #F1F1F1; }
-    ::-webkit-scrollbar-thumb { background: #6A8D92; border-radius: 10px; }
+    .preview-label {
+      font-[10px];
+      color: #6A8D92;
+      font-weight: 700;
+      letter-spacing: 0.2em;
+    }
   </style>
 </head>
 
@@ -118,7 +120,7 @@
           <textarea
             id="sourceText"
             class="w-full h-40 border border-gray-200 bg-white/60 text-sm p-4 rounded-sm placeholder:text-gray-300"
-            placeholder="請輸入商品原始資料..."
+            placeholder="請輸入原始資料..."
           >東京包車一日遊</textarea>
         </div>
 
@@ -127,7 +129,7 @@
           class="w-full bg-[#6A8D92] text-white text-[13px] tracking-[0.2em] py-4 rounded-sm hover:bg-[#5A7D82] transition-all shadow-sm active:scale-[0.98]"
         >
           生成內容結構
-          <span class="block text-[9px] opacity-70 tracking-widest mt-1">GENERATE CONTENT</span>
+          <span class="block text-[9px] opacity-70 tracking-widest mt-1 uppercase">Generate Content</span>
         </button>
 
       </section>
@@ -139,47 +141,49 @@
         </div>
 
         <div class="relative space-y-12">
+          
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <p class="text-[10px] text-[#6A8D92] font-bold tracking-widest">TITLE</p>
-              <span class="text-[9px] text-gray-300">商品標題 / 商品タイトル</span>
+            <p class="preview-label text-[10px] mb-2 uppercase tracking-widest">Product Title</p>
+            <div class="space-y-1">
+              <p data-title-zh class="text-base font-medium">商品標題 (繁中)</p>
+              <p data-title-ja class="text-sm text-gray-500">商品タイトル (日本語)</p>
+              <p data-title-en class="text-xs text-gray-400 italic">Product Title (English)</p>
             </div>
-            <p data-title class="text-base font-medium">請輸入資料後點擊生成</p>
-            <div class="w-8 h-[1px] bg-[#6A8D92]/30 mt-3"></div>
+            <div class="w-8 h-[1px] bg-[#6A8D92]/30 mt-4"></div>
           </div>
 
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <p class="text-[10px] text-[#6A8D92] font-bold tracking-widest">SUMMARY</p>
-              <span class="text-[9px] text-gray-300">商品簡述 / キャッチコピー</span>
+            <p class="preview-label text-[10px] mb-2 uppercase tracking-widest">Catch Copy</p>
+            <div class="space-y-2">
+              <p data-summary-zh class="text-sm text-gray-700">商品簡述：請點擊生成</p>
+              <p data-summary-ja class="text-xs text-gray-500">キャッチコピー：データ生成待ち</p>
+              <p data-summary-en class="text-[11px] text-gray-400 italic">— Pending —</p>
             </div>
-            <p data-summary class="text-sm text-gray-400 italic">— Pending —</p>
           </div>
 
           <div>
-            <div class="flex items-center gap-2 mb-2">
-              <p class="text-[10px] text-[#6A8D92] font-bold tracking-widest">DESCRIPTION</p>
-              <span class="text-[9px] text-gray-300">詳細描述 / 商品紹介文</span>
+            <p class="preview-label text-[10px] mb-2 uppercase tracking-widest">Description</p>
+            <div class="space-y-4 border-l-2 border-gray-50 pl-6">
+              <p data-desc-zh class="text-[13px] text-gray-600 leading-relaxed">內容將根據選定的客群自動優化為合適的語氣。</p>
+              <p data-desc-ja class="text-[12px] text-gray-500 leading-relaxed italic">対象ユーザーに合わせた最適なトーンで自動生成されます。</p>
+              <p data-desc-en class="text-[11px] text-gray-400 leading-relaxed">The description will be automatically optimized for the selected audience.</p>
             </div>
-            <p data-description class="text-[13px] text-gray-500 leading-relaxed whitespace-pre-line border-l border-gray-100 pl-6">
-                內容將根據選定的目標客群語言，自動優化為最合適的在地化語氣。
-            </p>
           </div>
 
           <div class="pt-8">
-            <p class="text-[11px] font-bold text-gray-800 mb-8 border-b border-gray-100 pb-4">
-              方案內容 <span class="lang-sub text-[9px]">Plan Details / プラン詳細</span>
+            <p class="text-[11px] font-bold text-gray-800 mb-8 border-b border-gray-100 pb-4 uppercase tracking-widest">
+              方案詳細內容 <span class="lang-sub text-[9px]">Plan Details / プラン詳細</span>
             </p>
-            <div id="planContainer" class="grid grid-cols-1 gap-10"></div>
+            <div id="planContainer" class="grid grid-cols-1 gap-12"></div>
           </div>
 
           <footer class="mt-20 pt-8 border-t border-gray-50 grid grid-cols-1 md:grid-cols-2 gap-8 text-[10px] text-gray-400">
             <div>
-              <p class="font-bold text-gray-500 mb-2">使用注意事項 (Notice / 注意事項)</p>
+              <p class="font-bold text-gray-500 mb-2 underline underline-offset-4 decoration-[#6A8D92]/30">使用注意事項 (Notice)</p>
               <p class="leading-relaxed">本工具生成的文案僅供參考。上架前請依據各平台規範自行調整。</p>
             </div>
             <div class="md:text-right self-end">
-              <p class="italic text-[#6A8D92]/40 text-[9px]">System Version: 2.1.0 (Multi-language Support)</p>
+              <p class="italic text-[#6A8D92]/40 text-[9px]">Multi-language Logic Engine v2.5</p>
             </div>
           </footer>
         </div>
@@ -199,17 +203,17 @@
       for (let i = 1; i <= count; i++) {
         planContainer.innerHTML += `
           <div class="group">
-            <div class="flex items-baseline gap-3 mb-3">
+            <div class="flex items-baseline gap-3 mb-4">
                 <span class="text-xl font-light text-[#6A8D92]/30 italic">0${i}</span>
-                <p class="text-[13px] font-medium text-gray-700 underline decoration-gray-100 underline-offset-8">
-                    方案名稱 ${i} <span class="text-[10px] text-gray-300 font-normal ml-1">Plan Name</span>
-                </p>
+                <div class="space-y-1">
+                    <p class="text-[13px] font-medium text-gray-800">方案名稱 ${i} (繁中)</p>
+                    <p class="text-[11px] text-gray-500">プラン名称 ${i} (日本語)</p>
+                </div>
             </div>
-            <div class="pl-10">
-                <p class="text-[12px] text-gray-500 leading-relaxed">
-                  這是一個示範方案內容。含司機、油資與基礎行程彈性調整。<br>
-                  <span class="text-gray-400 text-[11px]">専属ドライバー付きの安心プランです。</span>
-                </p>
+            <div class="pl-10 space-y-2">
+                <p class="text-[12px] text-gray-600 leading-relaxed">這是中文方案說明：包含專業司機全程服務與彈性行程安排。</p>
+                <p class="text-[11px] text-gray-400 leading-relaxed italic">日本語での説明：専属ドライバーによるフルサポートと柔軟なコース設定。</p>
+                <p class="text-[10px] text-gray-400 leading-relaxed">English Detail: Professional driver service with flexible itinerary options.</p>
             </div>
           </div>
         `;
@@ -224,12 +228,22 @@
       renderPlans(e.target.value);
     });
 
-    // 模擬生成按鈕
+    // 模擬生成按鈕動作
     generateBtn.addEventListener("click", () => {
-      document.querySelector("[data-title]").innerText = "東京包車一日遊｜專屬司機・自由行程";
-      document.querySelector("[data-summary]").innerText = "適合家庭與自由行旅客的彈性包車方案";
-      document.querySelector("[data-description]").innerText = 
-        "本商品提供東京市區包車服務，可依需求彈性調整行程。\n\n専属ドライバー付きのチャータープランで、快適な東京観光をお楽しみください。";
+      // 標題
+      document.querySelector("[data-title-zh]").innerText = "東京包車一日遊｜專屬司機・自由行程";
+      document.querySelector("[data-title-ja]").innerText = "東京プライベートチャーター1日観光｜専属ドライバー・自由日程";
+      document.querySelector("[data-title-en]").innerText = "Tokyo Private One-Day Charter | Pro Driver & Flexible Itinerary";
+
+      // 簡述
+      document.querySelector("[data-summary-zh]").innerText = "適合家庭與自由行旅客，輕鬆遊覽東京熱門景點。";
+      document.querySelector("[data-summary-ja]").innerText = "ご家族や個人旅行に最適、東京の人気スポットを快適に巡ります。";
+      document.querySelector("[data-summary-en]").innerText = "Perfect for families and solo travelers to explore Tokyo's top sights.";
+
+      // 描述
+      document.querySelector("[data-desc-zh]").innerText = "本商品提供高品質東京市區包車服務，不需擔心交通轉乘，盡情享受旅程。";
+      document.querySelector("[data-desc-ja]").innerText = "乗り換えの心配なし！高品質な東京市内チャーターサービスで、快適な旅をお楽しみください。";
+      document.querySelector("[data-desc-en]").innerText = "Skip the transfers! Enjoy high-quality private charter service in Tokyo city.";
       
       renderPlans(planSelect.value);
     });
