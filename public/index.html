@@ -2,8 +2,9 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品內容作成支援工具 | Travel Content Support</title>
+  <title>旅行商品內容作成支援工具</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
 
@@ -12,168 +13,123 @@
       background-color: #F9F9F7;
       font-family: 'Noto Sans JP', "Microsoft JhengHei", sans-serif;
       color: #333;
-      letter-spacing: 0.05em;
-    }
-    .lang-sub {
-      font-size: 10px;
-      color: #999;
-      margin-left: 4px;
     }
   </style>
 </head>
 
-<body class="min-h-screen">
+<body>
+<main class="max-w-6xl mx-auto px-8 py-16 grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16">
 
-<main class="max-w-6xl mx-auto px-8 py-12">
+  <!-- 左側 -->
+  <section class="space-y-10">
+    <h1 class="text-2xl font-medium">
+      旅行商品內容作成支援<br>
+      <span class="text-xs text-gray-400">Travel Content Creation Support</span>
+    </h1>
 
-<header class="mb-16 border-l-4 border-[#6A8D92] pl-6">
-  <h1 class="text-2xl font-medium">
-    旅行商品內容作成支援
-    <span class="block text-xs text-gray-400 mt-1">
-      Travel Content Creation Support
-    </span>
-  </h1>
-</header>
+    <div>
+      <p class="text-sm font-bold mb-3">目標客群</p>
+      <label class="block"><input type="radio" name="market" value="jp" checked> 日本人</label>
+      <label class="block"><input type="radio" name="market" value="zh"> 中華圈旅客</label>
+      <label class="block"><input type="radio" name="market" value="en"> English Speakers</label>
+    </div>
 
-<div class="grid grid-cols-1 lg:grid-cols-[340px_1fr] gap-16">
+    <div>
+      <p class="text-sm font-bold mb-3">商品類型</p>
+      <label class="block"><input type="radio" name="type" value="包車" checked> 包車</label>
+      <label class="block"><input type="radio" name="type" value="體驗"> 體驗</label>
+      <label class="block"><input type="radio" name="type" value="多日遊"> 多日遊</label>
+      <label class="block"><input type="radio" name="type" value="票券"> 票券</label>
+    </div>
 
-<!-- LEFT -->
-<section class="space-y-10">
+    <div>
+      <p class="text-sm font-bold mb-2">方案數量</p>
+      <select id="planCount" class="border px-2 py-1">
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+      </select>
+    </div>
 
-<div>
-  <p class="text-sm font-bold mb-3">目標客群<span class="lang-sub">Target</span></p>
-  <label class="block text-sm">
-    <input type="radio" name="market" checked /> 日本人
-  </label>
-  <label class="block text-sm">
-    <input type="radio" name="market" /> 中華圈旅客
-  </label>
-  <label class="block text-sm">
-    <input type="radio" name="market" /> 英語圈旅客
-  </label>
-</div>
+    <div>
+      <p class="text-sm font-bold mb-2">商品原始資料</p>
+      <textarea id="sourceText" class="w-full h-32 border p-3" placeholder="請輸入商品資訊"></textarea>
+    </div>
 
-<div>
-  <p class="text-sm font-bold mb-3">商品類型<span class="lang-sub">Type</span></p>
-  <label class="block text-sm">
-    <input type="radio" name="type" checked /> 包車
-  </label>
-  <label class="block text-sm">
-    <input type="radio" name="type" /> 體驗
-  </label>
-  <label class="block text-sm">
-    <input type="radio" name="type" /> 多日遊
-  </label>
-  <label class="block text-sm">
-    <input type="radio" name="type" /> 票券
-  </label>
-</div>
+    <button id="generateBtn" class="bg-gray-700 text-white px-4 py-3">
+      生成內容
+    </button>
+  </section>
 
-<div>
-  <p class="text-sm font-bold mb-2">方案數量</p>
-  <select id="planCount" class="border px-2 py-1 text-sm">
-    <option value="1">1</option>
-    <option value="2">2</option>
-    <option value="3">3</option>
-  </select>
-</div>
+  <!-- 右側 -->
+  <section class="bg-white p-10 border space-y-8">
+    <div>
+      <p class="text-xs text-gray-400">TITLE</p>
+      <p data-title class="text-lg">—</p>
+    </div>
 
-<div>
-  <p class="text-sm font-bold mb-2">商品原始資料</p>
-  <textarea class="w-full h-32 border p-2 text-sm"
-    placeholder="請輸入商品介紹、行程、特色（日文或中文）"></textarea>
-</div>
+    <div>
+      <p class="text-xs text-gray-400">SUMMARY</p>
+      <p data-summary>—</p>
+    </div>
 
-<button
-  id="generateBtn"
-  class="w-full bg-[#6A8D92] text-white py-3 text-sm">
-  生成內容結構
-</button>
+    <div>
+      <p class="text-xs text-gray-400">DESCRIPTION</p>
+      <p data-description class="whitespace-pre-line">—</p>
+    </div>
 
-</section>
-
-<!-- RIGHT -->
-<section class="bg-white p-10 border">
-
-<div class="mb-10">
-  <p class="text-xs font-bold text-[#6A8D92]">TITLE</p>
-  <p class="text-base font-medium mt-2" data-title>—</p>
-</div>
-
-<div class="mb-10">
-  <p class="text-xs font-bold text-[#6A8D92]">SUMMARY</p>
-  <p class="text-sm text-gray-500 mt-2" data-summary>—</p>
-</div>
-
-<div class="mb-10">
-  <p class="text-xs font-bold text-[#6A8D92]">DESCRIPTION</p>
-  <p class="text-sm text-gray-600 mt-2 whitespace-pre-line" data-description>—</p>
-</div>
-
-<hr class="my-8">
-
-<div>
-  <p class="text-sm font-bold mb-4">方案內容</p>
-  <div id="planContainer" class="space-y-4"></div>
-</div>
-
-</section>
-</div>
+    <div>
+      <p class="text-sm font-bold">方案內容</p>
+      <div id="planContainer" class="space-y-4"></div>
+    </div>
+  </section>
 </main>
 
 <script>
-const generateBtn = document.getElementById("generateBtn");
-const planSelect = document.getElementById("planCount");
-const planContainer = document.getElementById("planContainer");
+const btn = document.getElementById("generateBtn");
 
-function getSelected(name) {
-  const el = document.querySelector(`input[name="${name}"]:checked`);
-  return el ? el.parentElement.innerText.trim() : "";
-}
-
-generateBtn.addEventListener("click", async () => {
-  generateBtn.innerText = "生成中…";
-  generateBtn.disabled = true;
-
-  const payload = {
-    market: getSelected("market"),
-    productType: getSelected("type"),
-    planCount: Number(planSelect.value),
-    sourceText: document.querySelector("textarea").value
-  };
+btn.addEventListener("click", async () => {
+  btn.disabled = true;
+  btn.innerText = "生成中…";
 
   try {
-    const res = await fetch(
-      "https://travel-content-generator.lyhs0305.workers.dev/",
-      {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify(payload)
-      }
-    );
+    const market = document.querySelector("input[name='market']:checked").value;
+    const productType = document.querySelector("input[name='type']:checked").value;
+    const planCount = Number(document.getElementById("planCount").value);
+    const sourceText = document.getElementById("sourceText").value;
+
+    const res = await fetch("https://travel-content-generator.lyhs0305.workers.dev/", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ market, productType, planCount, sourceText })
+    });
+
+    if (!res.ok) throw new Error("API error");
 
     const data = await res.json();
 
-    document.querySelector("[data-title]").innerText = data.title;
-    document.querySelector("[data-summary]").innerText = data.summary;
-    document.querySelector("[data-description]").innerText = data.description;
+    document.querySelector("[data-title]").innerText = data.title || "—";
+    document.querySelector("[data-summary]").innerText = data.summary || "—";
+    document.querySelector("[data-description]").innerText = data.description || "—";
 
-    planContainer.innerHTML = "";
-    data.plans.forEach((p, i) => {
-      planContainer.innerHTML += `
+    const container = document.getElementById("planContainer");
+    container.innerHTML = "";
+
+    (data.plans || []).forEach((p, i) => {
+      container.innerHTML += `
         <div>
-          <p class="font-medium text-sm">方案 ${i + 1}｜${p.name}</p>
-          <p class="text-xs text-gray-600">${p.description}</p>
+          <p class="font-medium">方案 ${i + 1}｜${p.name}</p>
+          <p class="text-sm text-gray-600">${p.description}</p>
         </div>
       `;
     });
 
   } catch (e) {
-    alert("生成失敗，請確認 AI 服務狀態");
+    alert("生成失敗，請確認 Worker 是否正常");
     console.error(e);
   } finally {
-    generateBtn.innerText = "生成內容結構";
-    generateBtn.disabled = false;
+    btn.disabled = false;
+    btn.innerText = "生成內容";
   }
 });
 </script>
