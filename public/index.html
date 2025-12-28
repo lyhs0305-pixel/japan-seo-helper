@@ -2,180 +2,134 @@
 <html lang="zh-Hant">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品コンテンツ作成支援ツール</title>
+  <title>旅行商品內容作成支援</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
 
   <style>
     body {
-      background-color: #FAFAF8;
+      background-color: #F7F7F5;
     }
   </style>
 </head>
 
-<body class="text-[#2E2E2E] min-h-screen flex flex-col">
+<body class="text-[#2B2B2B] min-h-screen">
 
-  <!-- Header -->
-  <div class="w-full text-center py-2 text-xs text-[#6B6B6B] border-b border-[#E5E5E3]">
-    Demo Version
-  </div>
+  <main class="max-w-6xl mx-auto px-6 py-10">
 
-  <main class="flex-1 max-w-5xl mx-auto px-4 py-12">
-
-    <!-- Title -->
-    <section class="text-center mb-12">
-      <h1 class="text-3xl md:text-4xl font-medium mb-3">
-        旅行商品コンテンツ作成支援ツール
+    <!-- Header -->
+    <header class="mb-10">
+      <h1 class="text-xl font-medium tracking-wide">
+        旅行商品內容作成支援
       </h1>
-      <p class="text-sm text-[#6B6B6B] leading-relaxed">
-        日本語・中国語で入力可能。<br />
-        目標客群與商品類型に応じて、商品內容を生成します。
+      <p class="text-xs text-[#6B6B6B] mt-1">
+        日本語・中国語対応｜商品構成確認用ツール
       </p>
-    </section>
+    </header>
 
-    <!-- Tool -->
-    <div class="grid grid-cols-1 md:grid-cols-2 gap-8">
+    <!-- Layout -->
+    <div class="grid grid-cols-1 lg:grid-cols-[360px_1fr] gap-10">
 
-      <!-- Left -->
-      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-8">
+      <!-- Left / Form -->
+      <section class="space-y-8">
 
-        <!-- Market -->
         <div>
-          <p class="text-sm font-medium mb-3">目標客群 / 対象ユーザー</p>
-          <div class="space-y-2">
-            <div class="market-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="jp">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+          <p class="text-sm font-medium mb-2">対象ユーザー</p>
+          <div class="space-y-1">
+            <div class="market-option flex items-center gap-2 py-2 cursor-pointer" data-value="jp">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
               <span class="text-sm">日本人</span>
             </div>
-            <div class="market-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="zh">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
+            <div class="market-option flex items-center gap-2 py-2 cursor-pointer" data-value="zh">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
               <span class="text-sm">中華圈旅客</span>
             </div>
           </div>
         </div>
 
-        <!-- Type -->
         <div>
-          <p class="text-sm font-medium mb-3">商品屬性 / 商品タイプ</p>
-          <div class="space-y-2">
-            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="charter">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
-              <span class="text-sm">包車（チャーター）</span>
+          <p class="text-sm font-medium mb-2">商品タイプ</p>
+          <div class="space-y-1">
+            <div class="type-option flex items-center gap-2 py-2 cursor-pointer" data-value="charter">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
+              <span class="text-sm">包車</span>
             </div>
-            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="experience">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
-              <span class="text-sm">體驗（体験）</span>
+            <div class="type-option flex items-center gap-2 py-2 cursor-pointer" data-value="experience">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
+              <span class="text-sm">體驗</span>
             </div>
-            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="multiday">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
-              <span class="text-sm">多日遊（周遊ツアー・宿泊付き）</span>
+            <div class="type-option flex items-center gap-2 py-2 cursor-pointer" data-value="multiday">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
+              <span class="text-sm">多日遊</span>
             </div>
-            <div class="type-option flex items-center gap-3 p-3 border border-[#E5E5E3] rounded-md cursor-pointer" data-value="ticket">
-              <div class="w-4 h-4 border border-[#4A4A4A] rounded-full"></div>
-              <span class="text-sm">票券（チケット）</span>
+            <div class="type-option flex items-center gap-2 py-2 cursor-pointer" data-value="ticket">
+              <span class="w-3 h-3 border border-[#555] rounded-full"></span>
+              <span class="text-sm">票券</span>
             </div>
           </div>
         </div>
 
-        <!-- Plan Count -->
         <div>
           <p class="text-sm font-medium mb-2">方案數量</p>
-          <select
-            id="planCount"
-            class="w-full border border-[#E5E5E3] rounded-md p-2 text-sm bg-white"
-          >
-            <option value="1">1 個方案</option>
-            <option value="2">2 個方案</option>
-            <option value="3">3 個方案</option>
-            <option value="4">4 個方案</option>
-            <option value="5">5 個方案</option>
-            <option value="6">6 個方案（最多）</option>
+          <select id="planCount" class="w-full border border-[#DDD] bg-white text-sm px-2 py-1">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
           </select>
         </div>
 
-        <!-- Source -->
         <div>
-          <p class="text-sm font-medium mb-2">商品原始資料 / 商品元データ</p>
+          <p class="text-sm font-medium mb-2">商品元資料</p>
           <textarea
-            class="w-full min-h-[160px] border border-[#E5E5E3] rounded-md p-3 text-sm focus:outline-none"
-            placeholder="商品標題、行程內容、服務特色（日文／中文皆可）"
+            class="w-full h-40 border border-[#DDD] bg-white text-sm p-2"
+            placeholder="商品標題、行程內容、服務特色（日文／中文）"
           ></textarea>
         </div>
 
-        <!-- Button -->
         <button
           id="generateBtn"
-          class="w-full bg-[#4A4A4A] hover:bg-[#2F2F2F] text-white text-sm py-3 rounded-md"
+          class="inline-block border border-[#555] text-sm px-4 py-2 hover:bg-[#EEE]"
         >
-          生成旅遊商品內容
+          構成を確認
         </button>
 
-      </div>
+      </section>
 
-      <!-- Right -->
-      <div class="bg-white border border-[#E5E5E3] rounded-lg p-6 space-y-8 text-sm">
+      <!-- Right / Result -->
+      <section class="space-y-6">
 
-        <!-- Product -->
         <div>
-          <p class="font-medium mb-1">商品標題</p>
-          <p id="resultTitle" class="text-[#6B6B6B]">—</p>
+          <p class="text-sm font-medium">商品標題</p>
+          <p id="resultTitle" class="text-sm text-[#666] mt-1">—</p>
         </div>
 
         <div>
-          <p class="font-medium mb-1">商品簡述（SEO）</p>
-          <p id="resultSummary" class="text-[#6B6B6B]">—</p>
+          <p class="text-sm font-medium">商品簡述（SEO）</p>
+          <p id="resultSummary" class="text-sm text-[#666] mt-1">—</p>
         </div>
 
         <div>
-          <p class="font-medium mb-1">商品描述</p>
-          <p id="resultDescription" class="text-[#6B6B6B] whitespace-pre-line">—</p>
+          <p class="text-sm font-medium">商品描述</p>
+          <p id="resultDescription" class="text-sm text-[#666] mt-1 whitespace-pre-line">—</p>
         </div>
 
-        <hr class="border-[#E5E5E3]" />
+        <hr class="border-[#DDD]" />
 
-        <!-- Plans -->
         <div>
-          <p class="font-medium mb-3">方案內容</p>
-          <div id="planContainer" class="space-y-6 text-[#6B6B6B]">
-            <!-- JS 動態產生 -->
-          </div>
+          <p class="text-sm font-medium mb-3">方案內容</p>
+          <div id="planContainer" class="space-y-5 text-sm text-[#666]"></div>
         </div>
 
-      </div>
+      </section>
 
     </div>
   </main>
 
-  <!-- Footer -->
-  <div class="text-center text-xs text-[#6B6B6B] py-4 border-t border-[#E5E5E3]">
-    © Travel Content Support Tool
-  </div>
-
-  <!-- Demo JS -->
   <script>
-    let selectedMarket = "";
-    let selectedType = "";
     let planCount = 1;
-
-    document.querySelectorAll(".market-option").forEach(option => {
-      option.addEventListener("click", () => {
-        document.querySelectorAll(".market-option div:first-child")
-          .forEach(dot => dot.innerHTML = "");
-        option.querySelector("div").innerHTML =
-          '<div class="w-2 h-2 bg-[#4A4A4A] rounded-full m-auto mt-[3px]"></div>';
-        selectedMarket = option.dataset.value;
-      });
-    });
-
-    document.querySelectorAll(".type-option").forEach(option => {
-      option.addEventListener("click", () => {
-        document.querySelectorAll(".type-option div:first-child")
-          .forEach(dot => dot.innerHTML = "");
-        option.querySelector("div").innerHTML =
-          '<div class="w-2 h-2 bg-[#4A4A4A] rounded-full m-auto mt-[3px]"></div>';
-        selectedType = option.dataset.value;
-      });
-    });
 
     function renderPlans(count) {
       const container = document.getElementById("planContainer");
@@ -183,10 +137,9 @@
       for (let i = 1; i <= count; i++) {
         container.innerHTML += `
           <div>
-            <p class="font-medium mb-1">方案 ${i}｜方案名稱</p>
-            <p id="planTitle${i}">—</p>
-            <p class="font-medium mt-2 mb-1">方案 ${i}｜方案說明</p>
-            <p id="planDesc${i}" class="whitespace-pre-line">—</p>
+            <p class="font-medium">方案 ${i}</p>
+            <p class="mt-1">方案名稱（示例）</p>
+            <p class="mt-1">方案說明內容（示例）</p>
           </div>
         `;
       }
@@ -200,24 +153,12 @@
     });
 
     document.getElementById("generateBtn").addEventListener("click", () => {
-      if (!selectedMarket || !selectedType) {
-        alert("請先選擇目標客群與商品屬性");
-        return;
-      }
-
       document.getElementById("resultTitle").innerText =
-        "【示例】依商品資料生成的商品標題";
+        "商品標題（示例）";
       document.getElementById("resultSummary").innerText =
-        "這裡是商品簡述（SEO），未來將由 AI 自動生成。";
+        "商品簡述內容（示例）";
       document.getElementById("resultDescription").innerText =
-        "這裡是商品描述。\n\n目前為前端示範版本，用來確認結構是否正確。";
-
-      for (let i = 1; i <= planCount; i++) {
-        document.getElementById(`planTitle${i}`).innerText =
-          `方案 ${i}｜示例方案名稱`;
-        document.getElementById(`planDesc${i}`).innerText =
-          `此為第 ${i} 個方案的說明內容。\n\n未來將由 AI 依方案差異生成。`;
-      }
+        "此畫面用於確認商品與方案的內容結構。\n實際內容將依輸入資料生成。";
     });
   </script>
 
