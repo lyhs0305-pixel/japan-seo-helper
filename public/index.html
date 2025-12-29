@@ -1,186 +1,92 @@
-<!DOCTYPE html>
-<html lang="ja">
-<head>
-  <meta charset="UTF-8" />
-  <title>旅行商品內容作成支援工具 | Content Support</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <script src="https://cdn.tailwindcss.com"></script>
-  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
-  <style>
-    body { background-color: #F9F9F7; font-family: 'Noto Sans JP', "Microsoft JhengHei", sans-serif; color: #333; letter-spacing: 0.05em; }
-    .lang-sub { color: #999; font-weight: 400; font-size: 10px; margin-left: 4px; }
-    textarea:focus, input:focus, select:focus { border-color: #6A8D92 !important; outline: none; }
-    .preview-label { font-size: 10px; color: #6A8D92; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-    .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; margin-top: 12px; }
-    input[type="radio"] { accent-color: #6A8D92; }
-    .sticky-preview { position: sticky; top: 2rem; height: calc(100vh - 4rem); overflow-y: auto; }
-    .sticky-preview::-webkit-scrollbar { width: 4px; }
-    .sticky-preview::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
-  </style>
-</head>
-<body class="p-6 md:p-10 lg:p-12">
-  <div class="max-w-[1440px] mx-auto">
-    <header class="mb-10">
-      <h1 class="text-xl font-medium tracking-widest text-[#2B2B2B]">
-        旅行商品內容作成支援 <span class="text-xs font-normal text-gray-400 ml-2 tracking-normal">Travel Content Support</span>
-      </h1>
-    </header>
-    <div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-start">
-      <section class="space-y-8 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
-        <div>
-          <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">種別</span></p>
-          <div class="grid grid-cols-2 gap-2 text-[12px]">
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type" checked>包車</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">票券</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">體驗</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">多日遊</label>
-          </div>
-        </div>
-        <div class="grid grid-cols-2 gap-4">
-          <div>
-            <p class="text-[13px] font-bold mb-2">對象客群 <span class="lang-sub">ターゲット</span></p>
-            <select id="marketSelect" class="w-full border-b border-gray-300 bg-transparent text-[13px] py-1">
-              <option>日本人</option><option>中華圈</option><option>英語圈</option>
-            </select>
-          </div>
-          <div>
-            <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数</span></p>
-            <select id="planCountSelect" class="w-full border-b border-gray-300 bg-transparent text-[13px] py-1">
-              <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-              <option value="4">4</option><option value="5">5</option><option value="6">6</option>
-            </select>
-          </div>
-        </div>
-        <div>
-          <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料 / SEO Source</span></p>
-          <textarea id="sourceInfo" class="w-full h-32 border border-gray-200 bg-gray-50 text-[12px] p-3 rounded" placeholder="請輸入商品核心賣點..."></textarea>
-        </div>
-        <div class="border-t pt-6">
-          <p class="text-[13px] font-bold mb-2">方案明細輸入 <span class="lang-sub">プラン内容入力</span></p>
-          <div id="dynamicInputsContainer" class="space-y-4"></div>
-        </div>
-        <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm tracking-[0.2em] py-4 rounded hover:bg-[#444] transition-all shadow-lg">
-          生成 AI 優化內容
-        </button>
-      </section>
+async function generateAIContent() {
+  const btn = document.getElementById('generateBtn');
+  const workerUrl = "https://travel-content-generator.lyhs0305.workers.dev/";
+  
+  const sourceInfo = document.getElementById('sourceInfo').value;
+  const market = document.getElementById('marketSelect').value;
+  const planCards = document.querySelectorAll('.input-card');
+  
+  if (!sourceInfo) { alert("請輸入商品情報"); return; }
 
-      <section class="bg-white p-8 md:p-12 shadow-sm border border-gray-100 rounded-lg sticky-preview">
-        <div class="space-y-12">
-          <div>
-            <p class="preview-label mb-2">Product Title</p>
-            <div class="space-y-1">
-              <p id="res-title-zh" class="text-lg font-medium text-gray-400 italic">等待生成...</p>
-              <p id="res-title-ja" class="text-sm text-gray-400 font-light"></p>
-            </div>
-          </div>
-          <div>
-            <p class="preview-label mb-2">Catch Copy (SEO)</p>
-            <div class="space-y-2">
-              <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
-              <p id="res-summary-ja" class="text-[12px] text-gray-400 font-light italic"></p>
-            </div>
-          </div>
-          <div>
-            <p class="preview-label mb-2">Full Description</p>
-            <div class="space-y-4 border-l-2 border-[#6A8D92]/20 pl-6">
-              <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
-              <p id="res-desc-ja" class="text-[12px] text-gray-400 font-light leading-relaxed"></p>
-            </div>
-          </div>
-          <div class="pt-6">
-            <p class="preview-label mb-8 border-b border-gray-100 pb-2">Plan Details</p>
-            <div id="planPreviewContainer" class="space-y-12"></div>
-          </div>
-        </div>
-      </section>
-    </div>
-  </div>
+  btn.innerText = "AI 正在撰寫中 (約需 5-10 秒)...";
+  btn.disabled = true;
 
-  <script>
-    const planCountSelect = document.getElementById('planCountSelect');
-    const dynamicInputsContainer = document.getElementById('dynamicInputsContainer');
+  let plansPrompt = "";
+  planCards.forEach((card, i) => {
+    plansPrompt += `方案${i+1}: 名稱為 ${card.querySelector('.plan-name').value}, 內容為 ${card.querySelector('.plan-desc').value}\n`;
+  });
 
-    function updateInputFields() {
-      const count = parseInt(planCountSelect.value);
-      dynamicInputsContainer.innerHTML = '';
-      for (let i = 1; i <= count; i++) {
-        dynamicInputsContainer.innerHTML += `
-          <div class="input-card shadow-sm border-l-4 border-l-[#6A8D92]">
-            <p class="text-[11px] font-bold text-[#6A8D92] mb-3 uppercase">方案 ${i}</p>
-            <div class="space-y-3">
-              <input type="text" placeholder="方案名稱" class="plan-name w-full border-b text-[12px] py-1 outline-none">
-              <textarea placeholder="方案說明" class="plan-desc w-full bg-gray-50 border border-gray-100 text-[12px] p-2 h-20 rounded"></textarea>
-            </div>
-          </div>`;
-      }
+  const finalPrompt = `你是一位專業旅遊文案專家。請根據以下資料生成結構化文案：
+  客群：${market}
+  商品原始資料：${sourceInfo}
+  ${plansPrompt}
+  
+  請務必以 JSON 格式輸出，不要包含任何 Markdown 標籤（如 \`\`\`json），結構如下：
+  {
+    "title_zh": "標題", "title_ja": "日文標題",
+    "summary_zh": "SEO簡述", "summary_ja": "日文SEO",
+    "desc_zh": "完整說明", "desc_ja": "日文完整說明",
+    "plans": [{"name_zh": "名稱", "name_ja": "日文名", "desc_zh": "描述", "desc_ja": "日文描述"}]
+  }`;
+
+  try {
+    const response = await fetch(workerUrl, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ prompt: finalPrompt })
+    });
+
+    if (!response.ok) throw new Error(`HTTP 錯誤: ${response.status}`);
+
+    const result = await response.json();
+    
+    // 檢查 Gemini 是否有正確回傳內容
+    if (!result.candidates || !result.candidates[0].content.parts[0].text) {
+      throw new Error("AI 未能產出有效內容");
     }
-    updateInputFields();
-    planCountSelect.addEventListener('change', updateInputFields);
 
-    async function generateAIContent() {
-      const btn = document.getElementById('generateBtn');
-      const workerUrl = "https://travel-content-generator.lyhs0305.workers.dev/";
-      
-      const sourceInfo = document.getElementById('sourceInfo').value;
-      const market = document.getElementById('marketSelect').value;
-      const planCards = document.querySelectorAll('.input-card');
-      
-      btn.innerText = "AI 正在思考中...";
-      btn.disabled = true;
+    let rawText = result.candidates[0].content.parts[0].text;
+    
+    // 清理可能存在的 Markdown 標籤
+    rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
+    
+    const aiData = JSON.parse(rawText);
 
-      let plansPrompt = "";
-      planCards.forEach((card, i) => {
-        plansPrompt += `方案${i+1}: 名稱為 ${card.querySelector('.plan-name').value}, 內容為 ${card.querySelector('.plan-desc').value}\n`;
-      });
+    // 渲染資料
+    document.getElementById('res-title-zh').innerText = aiData.title_zh;
+    document.getElementById('res-title-ja').innerText = aiData.title_ja;
+    document.getElementById('res-summary-zh').innerText = aiData.summary_zh;
+    document.getElementById('res-summary-ja').innerText = aiData.summary_ja;
+    document.getElementById('res-desc-zh').innerText = aiData.desc_zh;
+    document.getElementById('res-desc-ja').innerText = aiData.desc_ja;
 
-      const finalPrompt = `你是一位專業旅遊文案專家。請根據以下資料生成結構化 JSON：
-      客群：${market}
-      原始資料：${sourceInfo}
-      ${plansPrompt}
-      
-      請嚴格輸出 JSON 格式：
-      {
-        "title_zh": "標題", "title_ja": "日文標題",
-        "summary_zh": "SEO簡述", "summary_ja": "日文SEO",
-        "desc_zh": "說明", "desc_ja": "日文說明",
-        "plans": [{"name_zh": "名", "name_ja": "日名", "desc_zh": "述", "desc_ja": "日述"}]
-      }`;
-
-      try {
-        const response = await fetch(workerUrl, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ prompt: finalPrompt })
-        });
-        const result = await response.json();
-        const aiData = JSON.parse(result.candidates[0].content.parts[0].text);
-
-        document.getElementById('res-title-zh').innerText = aiData.title_zh;
-        document.getElementById('res-title-ja').innerText = aiData.title_ja;
-        document.getElementById('res-summary-zh').innerText = aiData.summary_zh;
-        document.getElementById('res-summary-ja').innerText = aiData.summary_ja;
-        document.getElementById('res-desc-zh').innerText = aiData.desc_zh;
-        document.getElementById('res-desc-ja').innerText = aiData.desc_ja;
-
-        const container = document.getElementById('planPreviewContainer');
-        container.innerHTML = '';
-        aiData.plans.forEach((p, i) => {
-          container.innerHTML += `
+    const container = document.getElementById('planPreviewContainer');
+    container.innerHTML = '';
+    aiData.plans.forEach((p, i) => {
+      container.innerHTML += `
+        <div>
+          <div class="flex items-center gap-3 mb-3">
+            <span class="text-[10px] font-bold bg-[#6A8D92] text-white px-2 py-0.5 rounded-sm uppercase font-sans">PLAN ${i+1}</span>
             <div>
-              <div class="flex items-center gap-3 mb-3">
-                <span class="text-[10px] font-bold bg-[#6A8D92] text-white px-2 py-0.5 rounded-sm">PLAN ${i+1}</span>
-                <div><p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p><p class="text-[11px] text-gray-400 italic">${p.name_ja}</p></div>
-              </div>
-              <div class="pl-11 space-y-2"><p class="text-[13px] text-gray-600">${p.desc_zh}</p><p class="text-[11px] text-gray-400 italic">${p.desc_ja}</p></div>
-            </div>`;
-        });
-      } catch (e) {
-        alert("生成出錯，請確認 Cloudflare Worker 設定");
-      } finally {
-        btn.innerText = "生成 AI 優化內容";
-        btn.disabled = false;
-      }
-    }
-  </script>
-</body>
-</html>
+              <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
+              <p class="text-[11px] text-gray-400 font-light italic">${p.name_ja}</p>
+            </div>
+          </div>
+          <div class="pl-11 space-y-2">
+            <p class="text-[13px] text-gray-600 leading-relaxed">${p.desc_zh}</p>
+            <p class="text-[11px] text-gray-400 font-light italic leading-relaxed">${p.desc_ja}</p>
+          </div>
+        </div>`;
+    });
+    
+    // 成功後將視窗滾動到預覽區域
+    document.querySelector('.sticky-preview').scrollTo({ top: 0, behavior: 'smooth' });
+
+  } catch (e) {
+    console.error("詳細錯誤:", e);
+    alert("生成出錯: " + e.message + "\n請檢查 Console 獲取詳細資訊。");
+  } finally {
+    btn.innerText = "生成 AI 優化內容";
+    btn.disabled = false;
+  }
+}
