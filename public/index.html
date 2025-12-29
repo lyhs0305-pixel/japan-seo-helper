@@ -10,7 +10,7 @@
     body { background-color: #F9F9F7; font-family: 'Noto Sans JP', sans-serif; color: #333; }
     .lang-sub { color: #999; font-size: 10px; margin-left: 4px; }
     .preview-label { font-size: 10px; color: #6A8D92; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-    .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; margin-top: 12px; }
+    .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; }
     input[type="radio"] { accent-color: #6A8D92; }
     .sticky-preview { position: sticky; top: 2rem; height: calc(100vh - 4rem); overflow-y: auto; }
   </style>
@@ -28,8 +28,10 @@
 
 <div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10">
 
+<!-- ================= 左側：輸入 ================= -->
 <section class="space-y-6 bg-white p-6 rounded-lg border border-gray-200">
 
+  <!-- 商品類別 -->
   <div>
     <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">種別</span></p>
     <div class="grid grid-cols-2 gap-2 text-[12px]">
@@ -40,6 +42,7 @@
     </div>
   </div>
 
+  <!-- 客群 / 方案數 -->
   <div class="grid grid-cols-2 gap-4">
     <div>
       <p class="text-[13px] font-bold mb-2">對象客群 <span class="lang-sub">ターゲット</span></p>
@@ -53,25 +56,32 @@
     <div>
       <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数</span></p>
       <select id="planCountSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
-        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
-        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
+        <option value="1">1</option>
+        <option value="2">2</option>
+        <option value="3">3</option>
+        <option value="4">4</option>
+        <option value="5">5</option>
+        <option value="6">6</option>
       </select>
     </div>
   </div>
 
+  <!-- 商品情報 -->
   <div>
     <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料</span></p>
-    <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded" placeholder="請填寫商品資訊..."></textarea>
+    <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded"></textarea>
   </div>
 
+  <!-- 方案輸入 -->
   <div id="dynamicInputsContainer" class="space-y-4"></div>
 
-  <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded shadow-lg font-bold">
+  <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded font-bold">
     生成 AI 優化內容
   </button>
 
 </section>
 
+<!-- ================= 右側：結果 ================= -->
 <section class="bg-white p-10 border border-gray-100 rounded-lg sticky-preview">
   <div class="space-y-10">
 
@@ -93,7 +103,7 @@
       <p id="res-desc-ja" class="text-[12px] text-gray-400 leading-relaxed"></p>
     </div>
 
-    <div id="planPreviewContainer" class="space-y-10 pt-6 border-t"></div>
+    <div id="planPreviewContainer" class="space-y-8 pt-6 border-t"></div>
 
   </div>
 </section>
@@ -103,85 +113,69 @@
 
 <script>
 const planCountSelect = document.getElementById('planCountSelect');
-const dynamicInputsContainer = document.getElementById('dynamicInputsContainer');
+const container = document.getElementById('dynamicInputsContainer');
 
-function updateInputFields() {
-  const count = parseInt(planCountSelect.value);
-  dynamicInputsContainer.innerHTML = '';
+function renderPlanInputs() {
+  const count = Number(planCountSelect.value);
+  container.innerHTML = '';
   for (let i = 1; i <= count; i++) {
-    dynamicInputsContainer.innerHTML += `
-      <div class="input-card shadow-sm border-l-4 border-[#6A8D92]">
+    container.innerHTML += `
+      <div class="input-card">
         <p class="text-[11px] font-bold text-[#6A8D92] mb-2">方案 ${i}</p>
-        <input type="text" placeholder="方案名稱" class="plan-name w-full border-b text-[12px] py-1 mb-2 outline-none">
-        <textarea placeholder="方案說明" class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded"></textarea>
+        <input class="plan-name w-full border-b text-[12px] mb-2" placeholder="方案名稱">
+        <textarea class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded" placeholder="方案說明"></textarea>
       </div>`;
   }
 }
-updateInputFields();
-planCountSelect.addEventListener('change', updateInputFields);
+renderPlanInputs();
+planCountSelect.addEventListener('change', renderPlanInputs);
 
 async function generateAIContent() {
   const btn = document.getElementById('generateBtn');
-  const workerUrl = "https://travel-content-generator.lyhs0305.workers.dev/";
-  const sourceInfo = document.getElementById('sourceInfo').value;
-  const market = document.getElementById('marketSelect').value;
-  const planCards = document.querySelectorAll('.input-card');
-
-  if (!sourceInfo) return alert("請填寫商品情報");
-
-  btn.innerText = "AI 正在思考中...";
   btn.disabled = true;
+  btn.innerText = 'AI 生成中...';
 
-  let plansPrompt = "";
-  planCards.forEach((c, i) => {
-    plansPrompt += `方案${i+1}: 名稱為 ${c.querySelector('.plan-name').value}, 內容為 ${c.querySelector('.plan-desc').value}\n`;
+  const plans = [...document.querySelectorAll('.input-card')].map((c, i) =>
+    `方案${i+1}：${c.querySelector('.plan-name').value}，${c.querySelector('.plan-desc').value}`
+  ).join('\n');
+
+  const prompt = `請輸出 JSON：
+客群：${marketSelect.value}
+商品資訊：${sourceInfo.value}
+${plans}
+格式：{title_zh,title_ja,summary_zh,summary_ja,desc_zh,desc_ja,plans:[{name_zh,name_ja,desc_zh,desc_ja}]}`;
+
+  const res = await fetch("https://travel-content-generator.lyhs0305.workers.dev/", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      "X-API-Key": "dontuse-ai-frontend-2025-9xA7kP3mQ"
+    },
+    body: JSON.stringify({ prompt })
   });
 
-  const finalPrompt = `請根據以下資料生成結構化 JSON，日文需道地：
-客群：${market}
-原始資料：${sourceInfo}
-${plansPrompt}
-輸出格式：{"title_zh":"","title_ja":"","summary_zh":"","summary_ja":"","desc_zh":"","desc_ja":"","plans":[{"name_zh":"","name_ja":"","desc_zh":"","desc_ja":""}]}`;
+  const data = JSON.parse((await res.json()).text);
 
-  try {
-    const response = await fetch(workerUrl, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-        "X-API-Key": "dontuse-ai-frontend-2025-9xA7kP3mQ"
-      },
-      body: JSON.stringify({ prompt: finalPrompt })
-    });
+  resTitleZh.innerText = data.title_zh;
+  resTitleJa.innerText = data.title_ja;
+  resSummaryZh.innerText = data.summary_zh;
+  resSummaryJa.innerText = data.summary_ja;
+  resDescZh.innerText = data.desc_zh;
+  resDescJa.innerText = data.desc_ja;
 
-    const result = await response.json();
-    const aiData = JSON.parse(result.text);
+  planPreviewContainer.innerHTML = '';
+  data.plans.forEach(p => {
+    planPreviewContainer.innerHTML += `
+      <div>
+        <p class="font-bold">${p.name_zh}</p>
+        <p class="text-xs italic text-gray-400">${p.name_ja}</p>
+        <p class="text-sm">${p.desc_zh}</p>
+        <p class="text-xs italic text-gray-400">${p.desc_ja}</p>
+      </div>`;
+  });
 
-    document.getElementById('res-title-zh').innerText = aiData.title_zh;
-    document.getElementById('res-title-ja').innerText = aiData.title_ja;
-    document.getElementById('res-summary-zh').innerText = aiData.summary_zh;
-    document.getElementById('res-summary-ja').innerText = aiData.summary_ja;
-    document.getElementById('res-desc-zh').innerText = aiData.desc_zh;
-    document.getElementById('res-desc-ja').innerText = aiData.desc_ja;
-
-    const container = document.getElementById('planPreviewContainer');
-    container.innerHTML = '';
-    aiData.plans.forEach(p => {
-      container.innerHTML += `
-        <div>
-          <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
-          <p class="text-[11px] text-gray-400 italic mb-2">${p.name_ja}</p>
-          <p class="text-[13px] text-gray-600">${p.desc_zh}</p>
-          <p class="text-[11px] text-gray-400 italic">${p.desc_ja}</p>
-        </div>`;
-    });
-
-  } catch (e) {
-    console.error(e);
-    alert("生成出錯，請檢查 Worker 設定與金鑰");
-  } finally {
-    btn.innerText = "生成 AI 優化內容";
-    btn.disabled = false;
-  }
+  btn.disabled = false;
+  btn.innerText = '生成 AI 優化內容';
 }
 </script>
 
