@@ -55,9 +55,32 @@
       </h1>
     </header>
 
-    <div class="grid grid-cols-1 lg:grid-cols-[380px_1fr] gap-12">
+    <div class="grid grid-cols-1 lg:grid-cols-[400px_1fr] gap-12">
       
       <section class="space-y-8">
+        
+        <div>
+          <p class="text-[12px] font-bold mb-3">商品類別 <span class="text-[10px] text-gray-400 font-normal ml-1">種別 / Type</span></p>
+          <div class="grid grid-cols-2 gap-3 text-[12px]">
+            <label class="flex items-center gap-2 cursor-pointer group bg-white/50 p-2 rounded border border-gray-100">
+              <input type="radio" name="type" checked />
+              <span class="group-hover:text-[#6A8D92]">包車 <span class="text-[10px] text-gray-300">Charter</span></span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group bg-white/50 p-2 rounded border border-gray-100">
+              <input type="radio" name="type" />
+              <span class="group-hover:text-[#6A8D92]">體驗 <span class="text-[10px] text-gray-300">Activity</span></span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group bg-white/50 p-2 rounded border border-gray-100">
+              <input type="radio" name="type" />
+              <span class="group-hover:text-[#6A8D92]">多日遊 <span class="text-[10px] text-gray-300">Tour</span></span>
+            </label>
+            <label class="flex items-center gap-2 cursor-pointer group bg-white/50 p-2 rounded border border-gray-100">
+              <input type="radio" name="type" />
+              <span class="group-hover:text-[#6A8D92]">票券 <span class="text-[10px] text-gray-300">Ticket</span></span>
+            </label>
+          </div>
+        </div>
+
         <div class="grid grid-cols-2 gap-4">
           <div>
             <p class="text-[12px] font-bold mb-2">對象客群 <span class="text-[10px] text-gray-400 font-normal ml-1">ターゲット</span></p>
@@ -78,12 +101,12 @@
         </div>
 
         <div>
-          <p class="text-[12px] font-bold mb-2">商品標題 <span class="text-[10px] text-gray-400 font-normal ml-1">タイトル</span></p>
+          <p class="text-[12px] font-bold mb-2">商品標題 <span class="text-[10px] text-gray-400 font-normal ml-1">原始標題</span></p>
           <input type="text" placeholder="例：東京市區包車一日遊" class="w-full border-b border-gray-200 bg-transparent text-[13px] py-2">
         </div>
 
         <div>
-          <p class="text-[12px] font-bold mb-2">方案內容設定 <span class="text-[10px] text-gray-400 font-normal ml-1">プラン内容</span></p>
+          <p class="text-[12px] font-bold mb-2">方案詳細資料填寫 <span class="text-[10px] text-gray-400 font-normal ml-1">各プラン内容</span></p>
           <div id="dynamicInputsContainer" class="space-y-4">
             </div>
         </div>
@@ -94,17 +117,17 @@
         </button>
       </section>
 
-      <section class="bg-white p-8 md:p-12 shadow-[0_15px_60px_-15px_rgba(0,0,0,0.05)] rounded-sm border border-gray-100 relative">
+      <section class="bg-white p-8 md:p-12 shadow-[0_15px_60px_-15px_rgba(0,0,0,0.05)] rounded-sm border border-gray-100 relative h-fit sticky top-12">
         <div class="absolute top-8 right-8 text-gray-50 font-bold text-5xl pointer-events-none uppercase select-none">
           Preview
         </div>
 
         <div class="relative space-y-10">
           <div>
-            <p class="preview-label mb-3 uppercase">Optimized Title</p>
+            <p class="preview-label mb-3 uppercase">Product Title</p>
             <div class="space-y-1">
-              <p id="res-title-zh" class="text-base font-medium text-gray-800 italic">點擊生成按鈕以開始...</p>
-              <p id="res-title-ja" class="text-sm text-gray-400">商品タイトルがここに表示されます</p>
+              <p id="res-title-zh" class="text-base font-medium text-gray-300 italic">等待資料輸入中...</p>
+              <p id="res-title-ja" class="text-sm text-gray-400"></p>
             </div>
             <div class="w-8 h-[1px] bg-[#6A8D92]/30 mt-4"></div>
           </div>
@@ -112,21 +135,21 @@
           <div>
             <p class="preview-label mb-3 uppercase">Catch Copy</p>
             <div class="space-y-2">
-              <p id="res-summary-zh" class="text-sm text-gray-600">AI 將為您撰寫具吸引力的商品短評。</p>
-              <p id="res-summary-ja" class="text-[12px] text-gray-400 font-light italic">— 待機中 —</p>
+              <p id="res-summary-zh" class="text-sm text-gray-600"></p>
+              <p id="res-summary-ja" class="text-[12px] text-gray-400 font-light italic"></p>
             </div>
           </div>
 
           <div class="pt-6">
             <p class="text-[11px] font-bold text-gray-800 mb-6 border-b border-gray-100 pb-3 uppercase tracking-[0.2em]">
-              方案詳細摘要 <span class="lang-sub text-[9px] text-gray-400">プラン詳細 / Plan Details</span>
+              方案摘要 <span class="lang-sub text-[9px] text-gray-400">プラン詳細 / Plan Details</span>
             </p>
             <div id="planPreviewContainer" class="grid grid-cols-1 gap-10">
               </div>
           </div>
 
           <footer class="mt-16 pt-6 border-t border-gray-50 text-[10px] text-gray-400 flex justify-between">
-            <p>本文案結構由 AI 根據目標客群文化慣性優化製作。</p>
+            <p>本文案結構由 AI 提供在地化語氣優化。</p>
             <p class="italic">v2.5.0</p>
           </footer>
         </div>
@@ -141,7 +164,6 @@
     const planPreviewContainer = document.getElementById('planPreviewContainer');
     const generateBtn = document.getElementById('generateBtn');
 
-    // 當選擇方案數量時，更新左側輸入框
     function updateInputFields() {
       const count = parseInt(planCountSelect.value);
       dynamicInputsContainer.innerHTML = '';
@@ -149,11 +171,11 @@
       for (let i = 1; i <= count; i++) {
         dynamicInputsContainer.innerHTML += `
           <div class="input-card">
-            <p class="text-[11px] font-bold text-[#6A8D92] mb-3">方案 ${i} <span class="text-gray-400 font-normal">Plan ${i}</span></p>
+            <p class="text-[11px] font-bold text-[#6A8D92] mb-3">方案 ${i} <span class="text-gray-400 font-normal ml-1">Plan ${i}</span></p>
             <div class="space-y-3">
-              <input type="text" placeholder="方案名稱 (例如：10小時市區包車)" 
+              <input type="text" placeholder="方案名稱 (例：五小時半日遊)" 
                 class="w-full border-b border-gray-200 bg-transparent text-[12px] py-1 outline-none">
-              <textarea placeholder="方案說明 (例如：包含燃油費、司機餐費...)" 
+              <textarea placeholder="請簡述方案包含的核心內容..." 
                 class="w-full bg-white/50 border border-gray-100 text-[12px] p-2 h-20 rounded-sm"></textarea>
             </div>
           </div>
@@ -161,19 +183,16 @@
       }
     }
 
-    // 當點擊生成時，更新右側預覽
     function generateAIContent() {
       const count = parseInt(planCountSelect.value);
       
-      // 模擬標題生成
-      document.getElementById('res-title-zh').innerText = "東京私人包車一日遊｜專屬司機・自由客製行程";
-      document.getElementById('res-title-zh').classList.remove('italic', 'text-gray-400');
-      document.getElementById('res-title-ja').innerText = "東京プライベートチャーター1日観光｜専属ドライバー・自由日程";
+      document.getElementById('res-title-zh').innerText = "東京包車客製化一日遊｜專業司機・專車對應";
+      document.getElementById('res-title-zh').classList.remove('text-gray-300', 'italic');
+      document.getElementById('res-title-ja').innerText = "東京プライベートチャーター1日観光｜専属ドライバー";
 
-      document.getElementById('res-summary-zh').innerText = "告別擁擠的地鐵，專車接送讓家庭旅行更輕鬆。專業在地司機為您導覽東京。";
-      document.getElementById('res-summary-ja').innerText = "人混みを避けて、快適なプライベート空間で東京を満喫。ご家族での旅行に最適です。";
+      document.getElementById('res-summary-zh').innerText = "享受從飯店出發的無縫旅程，無論是淺草或是富士山，行程由您決定。";
+      document.getElementById('res-summary-ja').innerText = "ホテル送迎で快適な旅を。浅草から富士山まで、ご希望に合わせて調整可能です。";
 
-      // 清空並生成方案預覽
       planPreviewContainer.innerHTML = '';
       for (let i = 1; i <= count; i++) {
         planPreviewContainer.innerHTML += `
@@ -181,25 +200,8 @@
             <div class="flex items-baseline gap-3 mb-3">
               <span class="text-xl font-light text-[#6A8D92]/30 italic">0${i}</span>
               <div class="space-y-1">
-                <p class="text-[13px] font-medium text-gray-800">優化方案名稱 ${i}</p>
-                <p class="text-[11px] text-gray-400 font-light italic">プラン名称 ${i}（翻訳・最適化済）</p>
+                <p class="text-[13px] font-medium text-gray-800">優化後的方案名稱 ${i}</p>
+                <p class="text-[11px] text-gray-400 font-light italic">プラン名称 ${i}（最適化）</p>
               </div>
             </div>
-            <div class="pl-10 space-y-2">
-              <p class="text-[12px] text-gray-600 leading-relaxed">這是根據您輸入的資料，經 AI 優化後的中文說明。強調了舒適度與專業服務。</p>
-              <p class="text-[11px] text-gray-400 leading-relaxed font-light italic">日本語：専属ドライバーによるフルサポートと柔軟なコース設定をアピールします。</p>
-            </div>
-          </div>
-        `;
-      }
-    }
-
-    // 初始化
-    updateInputFields();
-
-    // 監聽事件
-    planCountSelect.addEventListener('change', updateInputFields);
-    generateBtn.addEventListener('click', generateAIContent);
-  </script>
-</body>
-</html>
+            <div class="pl-10 space-y-2
