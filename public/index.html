@@ -2,7 +2,7 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品內容作成支援工具</title>
+  <title>旅行商品內容作成支援工具 - Travel Content AI Support</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
@@ -10,7 +10,7 @@
     body { background-color: #F9F9F7; font-family: 'Noto Sans JP', sans-serif; color: #333; }
     .lang-sub { color: #999; font-size: 10px; margin-left: 4px; }
     .preview-label { font-size: 10px; color: #6A8D92; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
-    .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; }
+    .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; margin-top: 12px; }
     input[type="radio"] { accent-color: #6A8D92; }
     .sticky-preview { position: sticky; top: 2rem; height: calc(100vh - 4rem); overflow-y: auto; }
   </style>
@@ -21,40 +21,43 @@
 
 <header class="mb-10">
   <h1 class="text-xl font-medium tracking-widest text-[#2B2B2B]">
-    旅行商品內容作成支援
-    <span class="text-xs font-normal text-gray-400 ml-2">Travel Content Support</span>
+    旅行商品內容作成支援 <span class="text-sm font-normal text-gray-400 ml-1">/ Travel Content Creator</span>
   </h1>
 </header>
 
 <div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10">
 
-<!-- ================= 左側：輸入 ================= -->
 <section class="space-y-6 bg-white p-6 rounded-lg border border-gray-200">
 
-  <!-- 商品類別 -->
   <div>
-    <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">種別</span></p>
+    <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">カテゴリー / Category</span></p>
     <div class="grid grid-cols-2 gap-2 text-[12px]">
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type" checked>包車</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">票券</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">體驗</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">多日遊</label>
+      <label class="flex items-center gap-2 p-2 border rounded">
+        <input type="radio" name="category" checked> 包車 <span class="text-gray-400">/ 貸切</span>
+      </label>
+      <label class="flex items-center gap-2 p-2 border rounded">
+        <input type="radio" name="category"> 票券 <span class="text-gray-400">/ チケット</span>
+      </label>
+      <label class="flex items-center gap-2 p-2 border rounded">
+        <input type="radio" name="category"> 體驗 <span class="text-gray-400">/ アクティビティ</span>
+      </label>
+      <label class="flex items-center gap-2 p-2 border rounded">
+        <input type="radio" name="category"> 多日遊 <span class="text-gray-400">/ ツアー</span>
+      </label>
     </div>
   </div>
 
-  <!-- 客群 / 方案數 -->
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <p class="text-[13px] font-bold mb-2">對象客群 <span class="lang-sub">ターゲット</span></p>
+      <p class="text-[13px] font-bold mb-2">目標客群 <span class="lang-sub">ターゲット / Target</span></p>
       <select id="marketSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
-        <option>日本人</option>
-        <option>中華圈</option>
-        <option>英語圈</option>
+        <option value="日本人">日本市場 / Japanese</option>
+        <option value="中華圈">中文市場 / Chinese</option>
+        <option value="英語圈">英語市場 / English</option>
       </select>
     </div>
-
     <div>
-      <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数</span></p>
+      <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数 / Plans</span></p>
       <select id="planCountSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
         <option value="1">1</option>
         <option value="2">2</option>
@@ -66,140 +69,146 @@
     </div>
   </div>
 
-  <!-- 商品情報 -->
   <div>
-    <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料</span></p>
-    <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded"></textarea>
+    <p class="text-[13px] font-bold mb-2">原始資料 <span class="lang-sub">商品情報 / Source Data</span></p>
+    <textarea id="sourceInfo"
+      class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded"
+      placeholder="請輸入原始商品資訊、行程重點或賣點..."></textarea>
   </div>
 
-  <!-- 方案輸入 -->
   <div id="dynamicInputsContainer" class="space-y-4"></div>
 
-  <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded font-bold">
-    生成 AI 優化內容
+  <button id="generateBtn"
+    onclick="generateAIContent()"
+    class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded shadow-lg font-bold">
+    生成 AI 優化內容 <span class="font-normal text-[10px] ml-1">AIコンテンツ生成</span>
   </button>
-
 </section>
 
-<!-- ================= 右側：結果 ================= -->
 <section class="bg-white p-10 border border-gray-100 rounded-lg sticky-preview">
-  <div class="space-y-10">
+<div class="space-y-10">
 
-    <div>
-      <p class="preview-label mb-2">Product Title</p>
-      <p id="res-title-zh" class="text-lg font-medium">等待生成...</p>
-      <p id="res-title-ja" class="text-sm text-gray-400"></p>
-    </div>
+<div>
+  <p class="preview-label mb-2">Product Title / 商品名</p>
+  <p id="res-title-zh" class="text-lg font-medium">等待生成... / 生成待機中</p>
+  <p id="res-title-ja" class="text-sm text-gray-400"></p>
+</div>
 
-    <div>
-      <p class="preview-label mb-2">Catch Copy (SEO)</p>
-      <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
-      <p id="res-summary-ja" class="text-[12px] text-gray-400 italic"></p>
-    </div>
+<div>
+  <p class="preview-label mb-2">Catch Copy / キャッチコピー (SEO)</p>
+  <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
+  <p id="res-summary-ja" class="text-[12px] text-gray-400 italic"></p>
+</div>
 
-    <div>
-      <p class="preview-label mb-2">Description</p>
-      <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
-      <p id="res-desc-ja" class="text-[12px] text-gray-400 leading-relaxed"></p>
-    </div>
+<div>
+  <p class="preview-label mb-2">Description / 商品紹介</p>
+  <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
+  <p id="res-desc-ja" class="text-[12px] text-gray-400 leading-relaxed"></p>
+</div>
 
-    <div id="planPreviewContainer" class="space-y-8 pt-6 border-t"></div>
+<div>
+  <p class="preview-label mb-4">Plan Options / 方案詳情</p>
+  <div id="planPreviewContainer" class="space-y-8"></div>
+</div>
 
-  </div>
+</div>
 </section>
 
 </div>
 </div>
 
 <script>
-const planCountSelect = document.getElementById('planCountSelect');
-const container = document.getElementById('dynamicInputsContainer');
+const planCountSelect = document.getElementById("planCountSelect");
+const dynamicInputsContainer = document.getElementById("dynamicInputsContainer");
 
-function renderPlanInputs() {
-  const count = Number(planCountSelect.value);
-  container.innerHTML = '';
+function updateInputFields() {
+  const count = parseInt(planCountSelect.value);
+  dynamicInputsContainer.innerHTML = "";
   for (let i = 1; i <= count; i++) {
-    container.innerHTML += `
-      <div class="input-card">
-        <p class="text-[11px] font-bold text-[#6A8D92] mb-2">方案 ${i}</p>
-        <input class="plan-name w-full border-b text-[12px] mb-2" placeholder="方案名稱">
-        <textarea class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded" placeholder="方案說明"></textarea>
+    dynamicInputsContainer.innerHTML += `
+      <div class="input-card border-l-4 border-[#6A8D92]">
+        <p class="text-[11px] font-bold text-[#6A8D92] mb-2">方案 ${i} <span class="font-normal opacity-70 ml-1">プラン ${i} / Plan ${i}</span></p>
+        <input class="plan-name w-full border-b text-[12px] py-1 mb-2"
+          placeholder="方案名稱 / プラン名 / Plan Name">
+        <textarea class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded"
+          placeholder="方案說明 / プラン説明 / Plan Description"></textarea>
       </div>`;
   }
 }
-renderPlanInputs();
-planCountSelect.addEventListener('change', renderPlanInputs);
+updateInputFields();
+planCountSelect.addEventListener("change", updateInputFields);
 
 async function generateAIContent() {
-  const btn = document.getElementById('generateBtn');
+  const btn = document.getElementById("generateBtn");
   btn.disabled = true;
-  btn.innerText = 'AI 生成中...';
+  btn.innerText = "AI 正在生成中... / 生成中...";
 
-  const plans = [...document.querySelectorAll('.input-card')].map((c, i) =>
-    `方案${i+1}：${c.querySelector('.plan-name').value}，${c.querySelector('.plan-desc').value}`
-  ).join('\n');
+  const sourceInfo = document.getElementById("sourceInfo").value;
+  const market = document.getElementById("marketSelect").value;
+  const cards = document.querySelectorAll(".input-card");
 
-  const prompt = `請輸出 JSON：
-客群：${marketSelect.value}
-商品資訊：${sourceInfo.value}
-${plans}
-格式：{title_zh,title_ja,summary_zh,summary_ja,desc_zh,desc_ja,plans:[{name_zh,name_ja,desc_zh,desc_ja}]}`;
-
-  const res = await fetch("https://travel-content-generator.lyhs0305.workers.dev/", {
-    method: "POST",
-    headers: {
-      "Content-Type": "application/json",
-      "X-API-Key": "dontuse-ai-frontend-2025-9xA7kP3mQ"
-    },
-    body: JSON.stringify({ prompt })
+  let plansPrompt = "";
+  cards.forEach((c, i) => {
+    plansPrompt += `方案${i+1}：${c.querySelector(".plan-name").value}，${c.querySelector(".plan-desc").value}\n`;
   });
 
-  const data = JSON.parse((await res.json()).text);
+  const finalPrompt = `
+請根據以下資料生成結構化 JSON（日文需自然）：
+客群：${market}
+商品資料：${sourceInfo}
+${plansPrompt}
 
-  resTitleZh.innerText = data.title_zh;
-  resTitleJa.innerText = data.title_ja;
-  resSummaryZh.innerText = data.summary_zh;
-  resSummaryJa.innerText = data.summary_ja;
-  resDescZh.innerText = data.desc_zh;
-  resDescJa.innerText = data.desc_ja;
-// === 顯示 AI 優化後的方案內容 ===
-const planContainer = document.getElementById('planPreviewContainer');
-planContainer.innerHTML = '';
+輸出格式：
+{
+"title_zh":"",
+"title_ja":"",
+"summary_zh":"",
+"summary_ja":"",
+"desc_zh":"",
+"desc_ja":"",
+"plans":[
+{"name_zh":"","name_ja":"","desc_zh":"","desc_ja":""}
+]
+}`;
 
-if (Array.isArray(data.plans)) {
-  data.plans.forEach((p, index) => {
-    planContainer.innerHTML += `
-      <div>
-        <p class="text-[14px] font-bold text-gray-800">
-          ${index + 1}. ${p.name_zh}
-        </p>
-        <p class="text-[11px] text-gray-400 italic mb-2">
-          ${p.name_ja || ''}
-        </p>
-        <p class="text-[13px] text-gray-600 leading-relaxed">
-          ${p.desc_zh}
-        </p>
-        <p class="text-[11px] text-gray-400 italic leading-relaxed">
-          ${p.desc_ja || ''}
-        </p>
-      </div>
-    `;
-  });
-}
+  try {
+    const res = await fetch("https://travel-content-generator.lyhs0305.workers.dev/", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "X-API-Key": "dontuse-ai-frontend-2025-9xA7kP3mQ"
+      },
+      body: JSON.stringify({ prompt: finalPrompt })
+    });
 
-  planPreviewContainer.innerHTML = '';
-  data.plans.forEach(p => {
-    planPreviewContainer.innerHTML += `
-      <div>
-        <p class="font-bold">${p.name_zh}</p>
-        <p class="text-xs italic text-gray-400">${p.name_ja}</p>
-        <p class="text-sm">${p.desc_zh}</p>
-        <p class="text-xs italic text-gray-400">${p.desc_ja}</p>
-      </div>`;
-  });
+    const result = await res.json();
+    const data = JSON.parse(result.text);
 
-  btn.disabled = false;
-  btn.innerText = '生成 AI 優化內容';
+    document.getElementById("res-title-zh").innerText = data.title_zh;
+    document.getElementById("res-title-ja").innerText = data.title_ja;
+    document.getElementById("res-summary-zh").innerText = data.summary_zh;
+    document.getElementById("res-summary-ja").innerText = data.summary_ja;
+    document.getElementById("res-desc-zh").innerText = data.desc_zh;
+    document.getElementById("res-desc-ja").innerText = data.desc_ja;
+
+    const planBox = document.getElementById("planPreviewContainer");
+    planBox.innerHTML = "";
+    data.plans.forEach(p => {
+      planBox.innerHTML += `
+        <div>
+          <p class="font-bold text-gray-800">${p.name_zh}</p>
+          <p class="text-xs text-gray-400 italic mb-1">${p.name_ja}</p>
+          <p class="text-sm text-gray-600">${p.desc_zh}</p>
+          <p class="text-xs text-gray-400 italic">${p.desc_ja}</p>
+        </div>`;
+    });
+
+  } catch (e) {
+    alert("生成失敗，請稍後再試 / 生成に失敗しました。再試行してください。");
+  } finally {
+    btn.disabled = false;
+    btn.innerText = "生成 AI 優化內容";
+  }
 }
 </script>
 
