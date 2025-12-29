@@ -33,67 +33,68 @@
   <div>
     <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">種別</span></p>
     <div class="grid grid-cols-2 gap-2 text-[12px]">
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" checked>包車</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio">票券</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio">體驗</label>
-      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio">多日遊</label>
+      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type" checked>包車</label>
+      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">票券</label>
+      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">體驗</label>
+      <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">多日遊</label>
     </div>
   </div>
 
   <div class="grid grid-cols-2 gap-4">
     <div>
-      <p class="text-[13px] font-bold mb-2">對象客群</p>
+      <p class="text-[13px] font-bold mb-2">對象客群 <span class="lang-sub">ターゲット</span></p>
       <select id="marketSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
         <option>日本人</option>
         <option>中華圈</option>
         <option>英語圈</option>
       </select>
     </div>
+
     <div>
-      <p class="text-[13px] font-bold mb-2">方案數量</p>
+      <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数</span></p>
       <select id="planCountSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
-        <option value="1">1</option>
-        <option value="2">2</option>
-        <option value="3">3</option>
+        <option value="1">1</option><option value="2">2</option><option value="3">3</option>
+        <option value="4">4</option><option value="5">5</option><option value="6">6</option>
       </select>
     </div>
   </div>
 
   <div>
-    <p class="text-[13px] font-bold mb-2">商品情報</p>
-    <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded"></textarea>
+    <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料</span></p>
+    <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded" placeholder="請填寫商品資訊..."></textarea>
   </div>
 
-  <div id="dynamicInputsContainer"></div>
+  <div id="dynamicInputsContainer" class="space-y-4"></div>
 
-  <button id="generateBtn" onclick="generateAIContent()"
-    class="w-full bg-[#2B2B2B] text-white py-4 rounded font-bold">
+  <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded shadow-lg font-bold">
     生成 AI 優化內容
   </button>
 
 </section>
 
-<section class="bg-white p-10 border rounded sticky-preview">
-  <div class="space-y-6">
+<section class="bg-white p-10 border border-gray-100 rounded-lg sticky-preview">
+  <div class="space-y-10">
+
     <div>
-      <p class="preview-label">Product Title</p>
-      <p id="res-title-zh">等待生成...</p>
+      <p class="preview-label mb-2">Product Title</p>
+      <p id="res-title-zh" class="text-lg font-medium">等待生成...</p>
       <p id="res-title-ja" class="text-sm text-gray-400"></p>
     </div>
 
     <div>
-      <p class="preview-label">Catch Copy</p>
-      <p id="res-summary-zh"></p>
-      <p id="res-summary-ja" class="text-sm text-gray-400"></p>
+      <p class="preview-label mb-2">Catch Copy (SEO)</p>
+      <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
+      <p id="res-summary-ja" class="text-[12px] text-gray-400 italic"></p>
     </div>
 
     <div>
-      <p class="preview-label">Description</p>
-      <p id="res-desc-zh"></p>
-      <p id="res-desc-ja" class="text-sm text-gray-400"></p>
+      <p class="preview-label mb-2">Description</p>
+      <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
+      <p id="res-desc-ja" class="text-[12px] text-gray-400 leading-relaxed"></p>
     </div>
 
-    <div id="planPreviewContainer"></div>
+    <div id="planPreviewContainer" class="space-y-10 pt-6 border-t"></div>
+
   </div>
 </section>
 
@@ -105,12 +106,14 @@ const planCountSelect = document.getElementById('planCountSelect');
 const dynamicInputsContainer = document.getElementById('dynamicInputsContainer');
 
 function updateInputFields() {
+  const count = parseInt(planCountSelect.value);
   dynamicInputsContainer.innerHTML = '';
-  for (let i = 1; i <= planCountSelect.value; i++) {
+  for (let i = 1; i <= count; i++) {
     dynamicInputsContainer.innerHTML += `
-      <div class="input-card">
-        <input class="plan-name w-full border-b mb-2" placeholder="方案名稱">
-        <textarea class="plan-desc w-full border p-2" placeholder="方案說明"></textarea>
+      <div class="input-card shadow-sm border-l-4 border-[#6A8D92]">
+        <p class="text-[11px] font-bold text-[#6A8D92] mb-2">方案 ${i}</p>
+        <input type="text" placeholder="方案名稱" class="plan-name w-full border-b text-[12px] py-1 mb-2 outline-none">
+        <textarea placeholder="方案說明" class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded"></textarea>
       </div>`;
   }
 }
@@ -118,21 +121,27 @@ updateInputFields();
 planCountSelect.addEventListener('change', updateInputFields);
 
 async function generateAIContent() {
+  const btn = document.getElementById('generateBtn');
   const workerUrl = "https://travel-content-generator.lyhs0305.workers.dev/";
-  const sourceInfo = sourceInfo.value;
-  if (!sourceInfo) return alert("請填寫商品資訊");
+  const sourceInfo = document.getElementById('sourceInfo').value;
+  const market = document.getElementById('marketSelect').value;
+  const planCards = document.querySelectorAll('.input-card');
 
-  const plans = [...document.querySelectorAll('.input-card')].map((c, i) =>
-    `方案${i+1}: ${c.querySelector('.plan-name').value} - ${c.querySelector('.plan-desc').value}`
-  ).join("\n");
+  if (!sourceInfo) return alert("請填寫商品情報");
 
-  const finalPrompt = `
-請生成 JSON：
-${sourceInfo}
-${plans}
-格式：
-{"title_zh":"","title_ja":"","summary_zh":"","summary_ja":"","desc_zh":"","desc_ja":"","plans":[{"name_zh":"","name_ja":"","desc_zh":"","desc_ja":""}]}
-`;
+  btn.innerText = "AI 正在思考中...";
+  btn.disabled = true;
+
+  let plansPrompt = "";
+  planCards.forEach((c, i) => {
+    plansPrompt += `方案${i+1}: 名稱為 ${c.querySelector('.plan-name').value}, 內容為 ${c.querySelector('.plan-desc').value}\n`;
+  });
+
+  const finalPrompt = `請根據以下資料生成結構化 JSON，日文需道地：
+客群：${market}
+原始資料：${sourceInfo}
+${plansPrompt}
+輸出格式：{"title_zh":"","title_ja":"","summary_zh":"","summary_ja":"","desc_zh":"","desc_ja":"","plans":[{"name_zh":"","name_ja":"","desc_zh":"","desc_ja":""}]}`;
 
   try {
     const response = await fetch(workerUrl, {
@@ -144,8 +153,8 @@ ${plans}
       body: JSON.stringify({ prompt: finalPrompt })
     });
 
-    const result = await response.json();   // ✅ 關鍵行
-    const aiData = JSON.parse(result.text); // ✅ 正確解析
+    const result = await response.json();
+    const aiData = JSON.parse(result.text);
 
     document.getElementById('res-title-zh').innerText = aiData.title_zh;
     document.getElementById('res-title-ja').innerText = aiData.title_ja;
@@ -157,12 +166,21 @@ ${plans}
     const container = document.getElementById('planPreviewContainer');
     container.innerHTML = '';
     aiData.plans.forEach(p => {
-      container.innerHTML += `<div><b>${p.name_zh}</b><br>${p.desc_zh}</div>`;
+      container.innerHTML += `
+        <div>
+          <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
+          <p class="text-[11px] text-gray-400 italic mb-2">${p.name_ja}</p>
+          <p class="text-[13px] text-gray-600">${p.desc_zh}</p>
+          <p class="text-[11px] text-gray-400 italic">${p.desc_ja}</p>
+        </div>`;
     });
 
   } catch (e) {
     console.error(e);
-    alert("生成失敗，請檢查 Worker");
+    alert("生成出錯，請檢查 Worker 設定與金鑰");
+  } finally {
+    btn.innerText = "生成 AI 優化內容";
+    btn.disabled = false;
   }
 }
 </script>
