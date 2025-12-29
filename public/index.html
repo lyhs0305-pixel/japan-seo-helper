@@ -162,6 +162,30 @@ ${plans}
   resSummaryJa.innerText = data.summary_ja;
   resDescZh.innerText = data.desc_zh;
   resDescJa.innerText = data.desc_ja;
+// === 顯示 AI 優化後的方案內容 ===
+const planContainer = document.getElementById('planPreviewContainer');
+planContainer.innerHTML = '';
+
+if (Array.isArray(data.plans)) {
+  data.plans.forEach((p, index) => {
+    planContainer.innerHTML += `
+      <div>
+        <p class="text-[14px] font-bold text-gray-800">
+          ${index + 1}. ${p.name_zh}
+        </p>
+        <p class="text-[11px] text-gray-400 italic mb-2">
+          ${p.name_ja || ''}
+        </p>
+        <p class="text-[13px] text-gray-600 leading-relaxed">
+          ${p.desc_zh}
+        </p>
+        <p class="text-[11px] text-gray-400 italic leading-relaxed">
+          ${p.desc_ja || ''}
+        </p>
+      </div>
+    `;
+  });
+}
 
   planPreviewContainer.innerHTML = '';
   data.plans.forEach(p => {
