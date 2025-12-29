@@ -126,7 +126,7 @@
       
       if (!sourceInfo) { alert("請填寫商品情報"); return; }
       
-      btn.innerText = "AI 正在分析與翻譯中...";
+      btn.innerText = "AI 正在思考與撰寫中...";
       btn.disabled = true;
 
       let plansPrompt = "";
@@ -134,16 +134,16 @@
         plansPrompt += `方案${i+1}: 名稱為 ${card.querySelector('.plan-name').value}, 內容為 ${card.querySelector('.plan-desc').value}\n`;
       });
 
-      const finalPrompt = `你是一位專業旅遊文案。請根據資料生成 JSON。
+      const finalPrompt = `你是一位專業旅遊文案專家。請根據以下資料生成結構化文案：
       客群：${market}
       原始資料：${sourceInfo}
       ${plansPrompt}
       
-      請嚴格輸出 JSON，不要 Markdown：
+      請嚴格輸出 JSON 格式，不要 Markdown 標籤：
       {
-        "title_zh": "標題", "title_ja": "日標",
-        "summary_zh": "SEO簡述", "summary_ja": "日SEO",
-        "desc_zh": "說明", "desc_ja": "日說明",
+        "title_zh": "中文標題", "title_ja": "日文標題",
+        "summary_zh": "SEO簡述", "summary_ja": "日文SEO",
+        "desc_zh": "說明", "desc_ja": "日文說明",
         "plans": [{"name_zh": "名", "name_ja": "日名", "desc_zh": "述", "desc_ja": "日述"}]
       }`;
 
@@ -154,6 +154,8 @@
           body: JSON.stringify({ prompt: finalPrompt })
         });
         const result = await response.json();
+        
+        // 清理 AI 可能回傳的 Markdown 標籤
         let rawText = result.candidates[0].content.parts[0].text;
         rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
         const aiData = JSON.parse(rawText);
@@ -171,15 +173,21 @@
           container.innerHTML += `
             <div>
               <div class="flex items-center gap-3 mb-3">
-                <span class="text-[10px] font-bold bg-[#6A8D92] text-white px-2 py-0.5 rounded-sm">PLAN ${i+1}</span>
-                <div><p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p><p class="text-[11px] text-gray-400 font-light italic">${p.name_ja}</p></div>
+                <span class="text-[10px] font-bold bg-[#6A8D92] text-white px-2 py-0.5 rounded-sm uppercase font-sans">PLAN ${i+1}</span>
+                <div>
+                  <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
+                  <p class="text-[11px] text-gray-400 font-light italic">${p.name_ja}</p>
+                </div>
               </div>
-              <div class="pl-11 space-y-2"><p class="text-[13px] text-gray-600 leading-relaxed">${p.desc_zh}</p><p class="text-[11px] text-gray-400 font-light italic leading-relaxed">${p.desc_ja}</p></div>
+              <div class="pl-11 space-y-2">
+                <p class="text-[13px] text-gray-600">${p.desc_zh}</p>
+                <p class="text-[11px] text-gray-400 font-light italic">${p.desc_ja}</p>
+              </div>
             </div>`;
         });
       } catch (e) {
         console.error(e);
-        alert("生成失敗，請確認 Cloudflare Worker 環境變數與金鑰。");
+        alert("生成失敗，請確認 Cloudflare Worker 設定。");
       } finally {
         btn.innerText = "生成 AI 優化內容";
         btn.disabled = false;
