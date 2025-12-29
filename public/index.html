@@ -2,95 +2,81 @@
 <html lang="ja">
 <head>
   <meta charset="UTF-8" />
-  <title>旅行商品內容作成支援工具 | Content Support</title>
+  <title>旅行商品內容作成支援工具</title>
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <script src="https://cdn.tailwindcss.com"></script>
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+JP:wght@300;400;500;700&display=swap" rel="stylesheet">
   <style>
-    body { background-color: #F9F9F7; font-family: 'Noto Sans JP', "Microsoft JhengHei", sans-serif; color: #333; letter-spacing: 0.05em; }
-    .lang-sub { color: #999; font-weight: 400; font-size: 10px; margin-left: 4px; }
-    textarea:focus, input:focus, select:focus { border-color: #6A8D92 !important; outline: none; }
+    body { background-color: #F9F9F7; font-family: 'Noto Sans JP', sans-serif; color: #333; }
+    .lang-sub { color: #999; font-size: 10px; margin-left: 4px; }
     .preview-label { font-size: 10px; color: #6A8D92; font-weight: 700; letter-spacing: 0.2em; text-transform: uppercase; }
     .input-card { background: white; border: 1px solid #eee; padding: 16px; border-radius: 4px; margin-top: 12px; }
     input[type="radio"] { accent-color: #6A8D92; }
     .sticky-preview { position: sticky; top: 2rem; height: calc(100vh - 4rem); overflow-y: auto; }
-    .sticky-preview::-webkit-scrollbar { width: 4px; }
-    .sticky-preview::-webkit-scrollbar-thumb { background: #eee; border-radius: 10px; }
   </style>
 </head>
-<body class="p-6 md:p-10 lg:p-12">
+<body class="p-6 md:p-12">
   <div class="max-w-[1440px] mx-auto">
     <header class="mb-10">
       <h1 class="text-xl font-medium tracking-widest text-[#2B2B2B]">
-        旅行商品內容作成支援 <span class="text-xs font-normal text-gray-400 ml-2 tracking-normal">Travel Content Support</span>
+        旅行商品內容作成支援 <span class="text-xs font-normal text-gray-400 ml-2">Travel Content Support</span>
       </h1>
     </header>
-    <div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10 items-start">
-      <section class="space-y-8 bg-white p-6 rounded-lg border border-gray-200 shadow-sm">
+
+    <div class="grid grid-cols-1 lg:grid-cols-[420px_1fr] gap-10">
+      <section class="space-y-6 bg-white p-6 rounded-lg border border-gray-200">
         <div>
           <p class="text-[13px] font-bold mb-3">商品類別 <span class="lang-sub">種別</span></p>
           <div class="grid grid-cols-2 gap-2 text-[12px]">
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type" checked>包車</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">票券</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">體驗</label>
-            <label class="flex items-center gap-2 p-2 bg-gray-50 border rounded cursor-pointer"><input type="radio" name="type">多日遊</label>
+            <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type" checked>包車</label>
+            <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">票券</label>
+            <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">體驗</label>
+            <label class="flex items-center gap-2 p-2 border rounded"><input type="radio" name="type">多日遊</label>
           </div>
         </div>
         <div class="grid grid-cols-2 gap-4">
           <div>
             <p class="text-[13px] font-bold mb-2">對象客群 <span class="lang-sub">ターゲット</span></p>
-            <select id="marketSelect" class="w-full border-b border-gray-300 bg-transparent text-[13px] py-1">
+            <select id="marketSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
               <option>日本人</option><option>中華圈</option><option>英語圈</option>
             </select>
           </div>
           <div>
             <p class="text-[13px] font-bold mb-2">方案數量 <span class="lang-sub">プラン数</span></p>
-            <select id="planCountSelect" class="w-full border-b border-gray-300 bg-transparent text-[13px] py-1">
+            <select id="planCountSelect" class="w-full border-b text-[13px] py-1 bg-transparent">
               <option value="1">1</option><option value="2">2</option><option value="3">3</option>
               <option value="4">4</option><option value="5">5</option><option value="6">6</option>
             </select>
           </div>
         </div>
         <div>
-          <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料 / SEO Source</span></p>
-          <textarea id="sourceInfo" class="w-full h-32 border border-gray-200 bg-gray-50 text-[12px] p-3 rounded" placeholder="請輸入商品賣點或原始內容..."></textarea>
+          <p class="text-[13px] font-bold mb-2">商品情報 <span class="lang-sub">原始資料</span></p>
+          <textarea id="sourceInfo" class="w-full h-32 border bg-gray-50 text-[12px] p-3 rounded" placeholder="請填寫商品資訊..."></textarea>
         </div>
-        <div class="border-t pt-6">
-          <p class="text-[13px] font-bold mb-2">方案明細輸入 <span class="lang-sub">プラン内容入力</span></p>
-          <div id="dynamicInputsContainer" class="space-y-4"></div>
-        </div>
-        <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm tracking-[0.2em] py-4 rounded hover:bg-[#444] transition-all shadow-lg font-bold">
+        <div id="dynamicInputsContainer" class="space-y-4"></div>
+        <button id="generateBtn" onclick="generateAIContent()" class="w-full bg-[#2B2B2B] text-white text-sm py-4 rounded shadow-lg font-bold">
           生成 AI 優化內容
         </button>
       </section>
 
-      <section class="bg-white p-8 md:p-12 shadow-sm border border-gray-100 rounded-lg sticky-preview">
-        <div class="space-y-12">
+      <section class="bg-white p-10 border border-gray-100 rounded-lg sticky-preview">
+        <div class="space-y-10">
           <div>
             <p class="preview-label mb-2">Product Title</p>
-            <div class="space-y-1">
-              <p id="res-title-zh" class="text-lg font-medium text-gray-300 italic">等待生成...</p>
-              <p id="res-title-ja" class="text-sm text-gray-400 font-light"></p>
-            </div>
+            <p id="res-title-zh" class="text-lg font-medium">等待生成...</p>
+            <p id="res-title-ja" class="text-sm text-gray-400"></p>
           </div>
           <div>
             <p class="preview-label mb-2">Catch Copy (SEO)</p>
-            <div class="space-y-2">
-              <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
-              <p id="res-summary-ja" class="text-[12px] text-gray-400 font-light italic"></p>
-            </div>
+            <p id="res-summary-zh" class="text-[13px] text-gray-600"></p>
+            <p id="res-summary-ja" class="text-[12px] text-gray-400 italic"></p>
           </div>
           <div>
-            <p class="preview-label mb-2">Full Description</p>
-            <div class="space-y-4 border-l-2 border-[#6A8D92]/20 pl-6">
-              <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
-              <p id="res-desc-ja" class="text-[12px] text-gray-400 font-light leading-relaxed"></p>
-            </div>
+            <p class="preview-label mb-2">Description</p>
+            <p id="res-desc-zh" class="text-[13px] text-gray-600 leading-relaxed"></p>
+            <p id="res-desc-ja" class="text-[12px] text-gray-400 leading-relaxed"></p>
           </div>
-          <div class="pt-6">
-            <p class="preview-label mb-8 border-b border-gray-100 pb-2">Plan Details</p>
-            <div id="planPreviewContainer" class="space-y-12"></div>
-          </div>
+          <div id="planPreviewContainer" class="space-y-10 pt-6 border-t"></div>
         </div>
       </section>
     </div>
@@ -105,12 +91,10 @@
       dynamicInputsContainer.innerHTML = '';
       for (let i = 1; i <= count; i++) {
         dynamicInputsContainer.innerHTML += `
-          <div class="input-card shadow-sm border-l-4 border-l-[#6A8D92]">
-            <p class="text-[11px] font-bold text-[#6A8D92] mb-3 uppercase">方案 ${i}</p>
-            <div class="space-y-3">
-              <input type="text" placeholder="方案名稱" class="plan-name w-full border-b text-[12px] py-1 outline-none">
-              <textarea placeholder="方案說明" class="plan-desc w-full bg-gray-50 border border-gray-100 text-[12px] p-2 h-20 rounded"></textarea>
-            </div>
+          <div class="input-card shadow-sm border-l-4 border-[#6A8D92]">
+            <p class="text-[11px] font-bold text-[#6A8D92] mb-2">方案 ${i}</p>
+            <input type="text" placeholder="方案名稱" class="plan-name w-full border-b text-[12px] py-1 mb-2 outline-none">
+            <textarea placeholder="方案說明" class="plan-desc w-full bg-gray-50 border text-[12px] p-2 h-20 rounded"></textarea>
           </div>`;
       }
     }
@@ -124,28 +108,21 @@
       const market = document.getElementById('marketSelect').value;
       const planCards = document.querySelectorAll('.input-card');
       
-      if (!sourceInfo) { alert("請填寫商品情報"); return; }
+      if (!sourceInfo) return alert("請填寫商品情報");
       
-      btn.innerText = "AI 正在思考與撰寫中...";
+      btn.innerText = "AI 正在思考中...";
       btn.disabled = true;
 
       let plansPrompt = "";
-      planCards.forEach((card, i) => {
-        plansPrompt += `方案${i+1}: 名稱為 ${card.querySelector('.plan-name').value}, 內容為 ${card.querySelector('.plan-desc').value}\n`;
+      planCards.forEach((c, i) => {
+        plansPrompt += `方案${i+1}: 名稱為 ${c.querySelector('.plan-name').value}, 內容為 ${c.querySelector('.plan-desc').value}\n`;
       });
 
-      const finalPrompt = `你是一位專業旅遊文案專家。請根據以下資料生成結構化文案：
+      const finalPrompt = `請根據以下資料生成結構化 JSON，日文需道地：
       客群：${market}
       原始資料：${sourceInfo}
       ${plansPrompt}
-      
-      請嚴格輸出 JSON 格式，不要 Markdown 標籤：
-      {
-        "title_zh": "中文標題", "title_ja": "日文標題",
-        "summary_zh": "SEO簡述", "summary_ja": "日文SEO",
-        "desc_zh": "說明", "desc_ja": "日文說明",
-        "plans": [{"name_zh": "名", "name_ja": "日名", "desc_zh": "述", "desc_ja": "日述"}]
-      }`;
+      輸出格式：{"title_zh":"","title_ja":"","summary_zh":"","summary_ja":"","desc_zh":"","desc_ja":"","plans":[{"name_zh":"","name_ja":"","desc_zh":"","desc_ja":""}]}`;
 
       try {
         const response = await fetch(workerUrl, {
@@ -154,11 +131,8 @@
           body: JSON.stringify({ prompt: finalPrompt })
         });
         const result = await response.json();
-        
-        // 清理 AI 可能回傳的 Markdown 標籤
         let rawText = result.candidates[0].content.parts[0].text;
-        rawText = rawText.replace(/```json/g, "").replace(/```/g, "").trim();
-        const aiData = JSON.parse(rawText);
+        const aiData = JSON.parse(rawText.replace(/```json|```/g, "").trim());
 
         document.getElementById('res-title-zh').innerText = aiData.title_zh;
         document.getElementById('res-title-ja').innerText = aiData.title_ja;
@@ -172,22 +146,14 @@
         aiData.plans.forEach((p, i) => {
           container.innerHTML += `
             <div>
-              <div class="flex items-center gap-3 mb-3">
-                <span class="text-[10px] font-bold bg-[#6A8D92] text-white px-2 py-0.5 rounded-sm uppercase font-sans">PLAN ${i+1}</span>
-                <div>
-                  <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
-                  <p class="text-[11px] text-gray-400 font-light italic">${p.name_ja}</p>
-                </div>
-              </div>
-              <div class="pl-11 space-y-2">
-                <p class="text-[13px] text-gray-600">${p.desc_zh}</p>
-                <p class="text-[11px] text-gray-400 font-light italic">${p.desc_ja}</p>
-              </div>
+              <p class="text-[14px] font-bold text-gray-800">${p.name_zh}</p>
+              <p class="text-[11px] text-gray-400 italic mb-2">${p.name_ja}</p>
+              <p class="text-[13px] text-gray-600">${p.desc_zh}</p>
+              <p class="text-[11px] text-gray-400 italic">${p.desc_ja}</p>
             </div>`;
         });
       } catch (e) {
-        console.error(e);
-        alert("生成失敗，請確認 Cloudflare Worker 設定。");
+        alert("生成出錯，請檢查 Worker 設定與金鑰");
       } finally {
         btn.innerText = "生成 AI 優化內容";
         btn.disabled = false;
